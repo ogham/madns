@@ -1,0 +1,18 @@
+Flags: 81 80
+Counts: be16[1]  be16[1]  be16[0]  be16[0]
+
+Question:
+Domain: 0a "incomplete" 03 "loc" 07 "invalid" 00
+Type: be16(DNS_LOC)
+Class: be16(DNS_IN)
+
+Answer:
+Domain: c0 0c
+Type: be16(DNS_LOC)
+Class: be16(DNS_IN)
+TTL: be32[600]
+Length: be16[16]
+Version: 00
+Size: 32
+Horizontal precision: 00
+# some fields are missing

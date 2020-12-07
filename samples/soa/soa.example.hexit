@@ -1,0 +1,21 @@
+Flags: 81 80
+Counts: be16[1]  be16[1]  be16[0]  be16[0]
+
+Question:
+Domain: 03 "soa" 07 "example" 00
+Type: be16(DNS_SOA)
+Class: be16(DNS_IN)
+
+Answer:
+Domain: c0 0c
+Type: be16(DNS_SOA)
+Class: be16(DNS_IN)
+TTL: be32[600]
+Length: be16[50]
+MNAME: 05 "mname" 07 "example" 00
+RNAME: 05 "rname" 07 "example" 00
+Serial: be32[1564274434]
+Refresh inetrval: be32[86400]
+Retry inetrval: be32[7200]
+Expire limit: be32[604800]
+Minimum TTL: be32[300]

@@ -1,0 +1,15 @@
+Flags: 81 80
+Counts: be16[1]  be16[1]  be16[0]  be16[0]
+
+Question:
+Domain: 09 "too-short" 05 "eui64" 07 "invalid" 00
+Type: be16(DNS_EUI64)
+Class: be16(DNS_IN)
+
+Answer:
+Domain: c0 0c
+Type: be16(DNS_EUI64)
+Class: be16(DNS_IN)
+TTL: be32[600]
+Length: be16[8]
+Address: 12 34 56 ff fe 78 90 AB

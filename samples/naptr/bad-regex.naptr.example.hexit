@@ -1,0 +1,20 @@
+Flags: 81 80
+Counts: be16[1]  be16[1]  be16[0]  be16[0]
+
+Question:
+Domain: 09 "bad-regex" 05 "naptr" 07 "invalid" 00
+Type: be16(DNS_NAPTR)
+Class: be16(DNS_IN)
+
+Answer:
+Domain: c0 0c
+Type: be16(DNS_NAPTR)
+Class: be16(DNS_IN)
+TTL: be32[600]
+Length: be16[38]
+Order: be16[5]
+Preference: be16[10]
+Flags: 01 "s"
+Service: 03 "SRV"
+Regex: [25] "((((((((((((((((((((((((("
+Replacement: 03 "srv" 07 "example" 00

@@ -1,0 +1,99 @@
+html {
+    font-family: sans-serif;
+    color: #333;
+    background-color: #fff;
+    line-height: 1.5;
+
+    padding-bottom: 5rem;
+}
+
+body {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+h1 {
+    color: #222;
+}
+
+.lede {
+    font-size: 14pt;
+}
+
+h2 {
+    margin-top: 2rem;
+
+    color: #222;
+    line-height: 1.2;
+}
+
+pre, code {
+    font-family: Menlo, monospace;
+}
+
+pre {
+    color: #666;
+    padding-left: 1rem;
+}
+
+code {
+    white-space: nowrap;
+}
+
+li + li {
+    margin-top: 1rem;
+}
+
+table {
+    width: 100%;
+    border-spacing: 0 3px;
+}
+
+th + th, td + td {
+    padding-left: 1rem;
+}
+
+td:first-child, tr:not(.section) > th:first-child {
+    text-align: center;
+}
+
+td:first-child i {
+    color: #999;
+}
+
+th {
+    text-align: left;
+}
+
+td {
+    vertical-align: top;
+}
+
+tr.section > th {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 2px;
+    vertical-align: bottom;
+    color: #222;
+}
+
+tr.section:not(:first-child) {
+    height: 3rem;
+}
+
+tr.headings > th {
+    padding-top: 0.25rem;
+    font-size: smaller;
+    text-transform: uppercase;
+    color: #777;
+}
+
+td:last-child {
+    font-size: smaller;
+}
+
+code.qtype {
+    background-color: #eee;
+    border-radius: 9999px;
+    padding: 2px 5px;
+}

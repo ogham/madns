@@ -1,0 +1,17 @@
+Flags: 81 80
+Counts: be16[1]  be16[1]  be16[0]  be16[0]
+
+Question:
+Domain: 05 "sshfp" 07 "example" 00
+Type: be16(DNS_SSHFP)
+Class: be16(DNS_IN)
+
+Answer:
+Domain: c0 0c
+Type: be16(DNS_SSHFP)
+Class: be16(DNS_IN)
+TTL: be32[600]
+Length: be16[8]
+Algorithm: 01
+Fingerprint type: 01
+Key: 21 22 23 24 25 26

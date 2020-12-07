@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>About madns</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
+  </head>
+
+  <body>
+    <h1>madns</h1>
+
+    <p class="lede">
+      <b>madns</b> is a mock DNS server intended for developers that returns <em>intentionally invalid results</em>. It was built to test <a href="https://dns.lookup.dog/">dog</a>, a command-line DNS client.
+    </p>
+
+    <p>
+      The DNS wire format allows several edge cases: messages with the wrong length, records missing required fields, or compressed strings pointing to themselves that could make a naïve client enter an infinite loop.
+      DNS clients should handle these cases correctly, but it is difficult to find misbehaving resolvers out in the wild to test against.
+      madns lets you run end-to-end tests against such a resolver, to check that you have handled these edge cases correctly.
+    </p>
+
+    <p>
+      madns will only respond to domain names unsuitable for use on the public Internet, so there’s no chance of it accidentally getting used as a genuine DNS resolver.
+      All of its responses are pre-programmed and constructed manually; it does not recurse.
+    </p>
+
+
+    <h2>Usage</h2>
+
+    <p>
+      To use madns, make DNS requests to <code>madns.binarystar.systems</code> on port 5353.
+    </p>
+
+    <p>
+      Requests must contain exactly one query, for a domain name ending in <code>.example</code> or <code>.invalid</code>.
+      The record type can be any of the allowed types, and results will vary on both the domain and the type.
+      An <code>OPT</code> record in the request will be ignored.
+    </p>
+
+    <p>
+      Any request not satisfying these criteria will be responded to with <code>REFUSED</code>. A request that’s otherwise correct but doesn’t have a valid type/domain combination will be responded to with <code>NOTIMP</code>, rather than <code>NXDOMAIN</code>.
+    </p>
+
+    <p>
+      It responds to both TCP and UDP requests, though some features are only available using TCP to prevent amplification attacks.
+    </p>
+
+
+    <h2>What should I do with this?</h2>
+
+    <p>
+      If you’re developing a DNS client or a program that uses the DNS protocol in some way, you can point it to this server and have it query one of the domain names listed below, then check that your program behaves according to the specification (or at the very least, doesn’t crash).
+    </p>
+
+    <p>
+      If you just want to try something quickly, you can test dog’s error handling by resolving one of the domains in the table below. Here’s one that’s valid:
+    </p>
+
+    <pre>$ dog @madns.binarystar.systems:5353 TXT txt.example
+TXT txt.example. 10m00s   "Cache Invalidation and Naming Things"</pre>
+
+    <p>
+      And here’s one that’s invalid:
+    </p>
+
+    <pre>$ dog @madns.binarystar.systems:5353 TXT empty.txt.invalid
+Error [protocol]: Malformed packet: insufficient data</pre>
+
+
+    <h2>Domains List</h2>
+
+    <p>
+      Here are all the domains madns responds to.
+    </p>
+
+    <table>
+
+      <tr class="section"><th colspan="3">Sample A records (qtype 1)</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><code class="qtype a">A</code></td>
+        <td><code>a.example</code></td>
+        <td>
+          Responds with the <code>127.0.0.1</code> IPv4 address.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype a">A</code></td>
+        <td><code>too-long.a.invalid</code></td>
+        <td>
+          Responds with five bytes of IP instead of four.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype a">A</code></td>
+        <td><code>too-short.a.invalid</code></td>
+        <td>
+          Responds with three bytes of IP instead of four.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype a">A</code></td>
+        <td><code>empty.a.invalid</code></td>
+        <td>
+          Responds with a zero-length record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype a">A</code></td>
+        <td><code>incomplete.a.invalid</code></td>
+        <td>
+          Responds with a record that has some bytes missing.
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Sample AAAA records (qtype 28)</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><code class="qtype aaaa">AAAA</code></td>
+        <td><code>aaaa.example</code></td>
+        <td>
+          Responds with the <code>::1</code> IPv6 address.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype aaaa">AAAA</code></td>
+        <td><code>too-long.aaaa.invalid</code></td>
+        <td>
+          Responds with fifteen bytes of IP instead of sixteen.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype aaaa">AAAA</code></td>
+        <td><code>too-short.aaaa.invalid</code></td>
+        <td>
+          Responds with seventeen bytes of IP instead of sixteen.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype aaaa">AAAA</code></td>
+        <td><code>empty.aaaa.invalid</code></td>
+        <td>
+          Responds with a zero-length record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype aaaa">AAAA</code></td>
+        <td><code>incomplete.aaaa.invalid</code></td>
+        <td>
+          Responds with a record that has some bytes missing.
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Sample CAA records (qtype 257)</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><code class="qtype caa">CAA</code></td>
+        <td><code>caa.example</code></td>
+        <td>
+          Responds with a valid CAA record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype caa">CAA</code></td>
+        <td><code>critical.caa.example</code></td>
+        <td>
+          Responds with a valid CAA record with the critical bit set.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype caa">CAA</code></td>
+        <td><code>others.caa.example</code></td>
+        <td>
+          Responds with a valid CAA record all of the currently-unspecified bits set.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype caa">CAA</code></td>
+        <td><code>empty.caa.invalid</code></td>
+        <td>
+          Responds with a zero-length record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype caa">CAA</code></td>
+        <td><code>incomplete.caa.invalid</code></td>
+        <td>
+          Responds with a record that has some bytes missing.
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Sample CNAME records (qtype 5)</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><code class="qtype cname">CNAME</code></td>
+        <td><code>cname.example</code></td>
+        <td>
+          Responds with a valid CNAME record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype cname">CNAME</code></td>
+        <td><code>empty.cname.invalid</code></td>
+        <td>
+          Responds with a zero-length record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype cname">CNAME</code></td>
+        <td><code>incomplete.cname.invalid</code></td>
+        <td>
+          Responds with a record that has some bytes missing.
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Sample EUI48 records (qtype 108)</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><code class="qtype eui48">EUI48</code></td>
+        <td><code>eui48.example</code></td>
+        <td>
+          Responds with a valid EUI48 record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype eui48">EUI48</code></td>
+        <td><code>too-long.eui48.invalid</code></td>
+        <td>
+          Responds with five bytes of IP instead of six.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype eui48">EUI48</code></td>
+        <td><code>too-short.eui48.invalid</code></td>
+        <td>
+          Responds with seven bytes of IP instead of six.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype eui48">EUI48</code></td>
+        <td><code>empty.eui48.invalid</code></td>
+        <td>
+          Responds with a zero-length record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype eui48">EUI48</code></td>
+        <td><code>incomplete.eui48.invalid</code></td>
+        <td>
+          Responds with a record that has some bytes missing.
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Sample EUI64 records (qtype 109)</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><code class="qtype eui64">EUI64</code></td>
+        <td><code>eui64.example</code></td>
+        <td>
+          Responds with a valid EUI64 record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype eui64">EUI64</code></td>
+        <td><code>too-long.eui64.invalid</code></td>
+        <td>
+          Responds with seven bytes of IP instead of eight.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype eui64">EUI64</code></td>
+        <td><code>too-short.eui64.invalid</code></td>
+        <td>
+          Responds with nine bytes of IP instead of eight.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype eui64">EUI64</code></td>
+        <td><code>empty.eui64.invalid</code></td>
+        <td>
+          Responds with a zero-length record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype eui64">EUI64</code></td>
+        <td><code>incomplete.eui64.invalid</code></td>
+        <td>
+          Responds with a record that has some bytes missing.
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Sample HINFO records (qtype 13)</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><code class="qtype hinfo">HINFO</code></td>
+        <td><code>hinfo.example</code></td>
+        <td>
+          Responds with a valid HINFO record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype hinfo">HINFO</code></td>
+        <td><code>empty.hinfo.invalid</code></td>
+        <td>
+          Responds with a zero-length record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype hinfo">HINFO</code></td>
+        <td><code>incomplete.hinfo.invalid</code></td>
+        <td>
+          Responds with a record that has some bytes missing.
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Sample LOC records (qtype 29)</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><code class="qtype loc">LOC</code></td>
+        <td><code>loc.example</code></td>
+        <td>
+          Responds with a valid LOC record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype loc">LOC</code></td>
+        <td><code>far-negative-longitude.loc.invalid</code></td>
+        <td>
+          Responds with a packet with the longitude field out-of-range, too far into the negative.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype loc">LOC</code></td>
+        <td><code>far-positive-longitude.loc.invalid</code></td>
+        <td>
+          Responds with a packet with the longitude field out-of-range, too far into the positive.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype loc">LOC</code></td>
+        <td><code>far-negative-latitude.loc.invalid</code></td>
+        <td>
+          Responds with a packet with the latitude field out-of-range, too far into the negative.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype loc">LOC</code></td>
+        <td><code>far-positive-latitude.loc.invalid</code></td>
+        <td>
+          Responds with a packet with the longitude field out-of-range, too far into the positive.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype loc">LOC</code></td>
+        <td><code>v1-conform.loc.invalid</code></td>
+        <td>
+          Responds with a packet with the version number set to 1, rather than 0, but the rest of the record holds data in the version 0 format.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype loc">LOC</code></td>
+        <td><code>v1-nonconform.loc.invalid</code></td>
+        <td>
+          Responds with a packet with the version number set to 1, rather than 0, and the rest of the record holds random data.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype loc">LOC</code></td>
+        <td><code>v1-empty.loc.invalid</code></td>
+        <td>
+          Responds with a packet with the version number set to 1, rather than 0, with the rest of the record empty.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype loc">LOC</code></td>
+        <td><code>empty.loc.invalid</code></td>
+        <td>
+          Responds with a zero-length record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype loc">LOC</code></td>
+        <td><code>incomplete.loc.invalid</code></td>
+        <td>
+          Responds with a record that has some bytes missing.
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Sample MX records (qtype 15)</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><code class="qtype mx">MX</code></td>
+        <td><code>mx.example</code></td>
+        <td>
+          Responds with a valid MX record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype mx">MX</code></td>
+        <td><code>empty.mx.invalid</code></td>
+        <td>
+          Responds with a zero-length record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype mx">MX</code></td>
+        <td><code>incomplete.mx.invalid</code></td>
+        <td>
+          Responds with a record that has some bytes missing.
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Sample NAPTR records (qtype 35)</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><code class="qtype naptr">NAPTR</code></td>
+        <td><code>naptr.example</code></td>
+        <td>
+          Responds with a valid NAPTR record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype naptr">NAPTR</code></td>
+        <td><code>bad-regex.naptr.example</code></td>
+        <td>
+          Responds with a valid NAPTR record containing an invalid regular expression.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype naptr">NAPTR</code></td>
+        <td><code>empty.naptr.invalid</code></td>
+        <td>
+          Responds with a zero-length record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype naptr">NAPTR</code></td>
+        <td><code>incomplete.naptr.invalid</code></td>
+        <td>
+          Responds with a record that has some bytes missing.
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Sample NS records (qtype 2)</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><code class="qtype ns">NS</code></td>
+        <td><code>ns.example</code></td>
+        <td>
+          Responds with a valid NS record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype ns">NS</code></td>
+        <td><code>empty.ns.invalid</code></td>
+        <td>
+          Responds with a zero-length record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype ns">NS</code></td>
+        <td><code>incomplete.ns.invalid</code></td>
+        <td>
+          Responds with a record that has some bytes missing.
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Sample OPENPGPKEY records (qtype 61)</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><code class="qtype hinfo">OPENPGPKEY</code></td>
+        <td><code>openpgpkey.example</code></td>
+        <td>
+          Responds with a valid OPENPGPKEY record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype openpgpkey">OPENPGPKEY</code></td>
+        <td><code>empty.openpgpkey.invalid</code></td>
+        <td>
+          Responds with a zero-length record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype openpgpkey">OPENPGPKEY</code></td>
+        <td><code>incomplete.openpgpkey.invalid</code></td>
+        <td>
+          Responds with a record that has some bytes missing.
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Sample OPT records (qtype 41)</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><code class="qtype opt">OPT</code></td>
+        <td><code>opt.example</code></td>
+        <td>
+          Responds with a valid OPT record in the Additional section.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype opt">OPT</code></td>
+        <td><code>named.opt.example</code></td>
+        <td>
+          Responds with a valid OPT record in the Additional section that has a domain name associated with it.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype opt">OPT</code></td>
+        <td><code>empty.opt.invalid</code></td>
+        <td>
+          Responds with a zero-length OPT record in the Additional section.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype opt">OPT</code></td>
+        <td><code>incomplete.opt.invalid</code></td>
+        <td>
+          Responds with a record that has some bytes missing.
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Sample PTR records (qtype 12)</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><code class="qtype ptr">PTR</code></td>
+        <td><code>ptr.example</code></td>
+        <td>
+          Responds with a valid PTR record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype ptr">PTR</code></td>
+        <td><code>empty.ptr.invalid</code></td>
+        <td>
+          Responds with a zero-length record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype ptr">PTR</code></td>
+        <td><code>incomplete.ptr.invalid</code></td>
+        <td>
+          Responds with a record that has some bytes missing.
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Sample SOA records (qtype 6)</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><code class="qtype soa">SOA</code></td>
+        <td><code>soa.example</code></td>
+        <td>
+          Responds with a valid SOA record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype soa">SOA</code></td>
+        <td><code>empty.soa.invalid</code></td>
+        <td>
+          Responds with a zero-length record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype soa">SOA</code></td>
+        <td><code>incomplete.soa.invalid</code></td>
+        <td>
+          Responds with a record that has some bytes missing.
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Sample SRV records (qtype 33)</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><code class="qtype srv">SRV</code></td>
+        <td><code>srv.example</code></td>
+        <td>
+          Responds with a valid SRV record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype srv">SRV</code></td>
+        <td><code>empty.srv.invalid</code></td>
+        <td>
+          Responds with a zero-length record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype srv">SRV</code></td>
+        <td><code>incomplete.srv.invalid</code></td>
+        <td>
+          Responds with a record that has some bytes missing.
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Sample SSHFP records (qtype 44)</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><code class="qtype sshfp">SSHFP</code></td>
+        <td><code>sshfp.example</code></td>
+        <td>
+          Responds with a valid SSHFP record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype sshfp">SSHFP</code></td>
+        <td><code>empty.sshfp.invalid</code></td>
+        <td>
+          Responds with a zero-length record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype sshfp">SSHFP</code></td>
+        <td><code>incomplete.sshfp.invalid</code></td>
+        <td>
+          Responds with a record that has some bytes missing.
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Sample TLSA records (qtype 52)</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><code class="qtype tlsa">TLSA</code></td>
+        <td><code>tlsa.example</code></td>
+        <td>
+          Responds with a valid TLSA record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype tlsa">TLSA</code></td>
+        <td><code>empty.tlsa.invalid</code></td>
+        <td>
+          Responds with a zero-length record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype tlsa">TLSA</code></td>
+        <td><code>incomplete.tlsa.invalid</code></td>
+        <td>
+          Responds with a record that has some bytes missing.
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Sample TXT records (qtype 16)</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><code class="qtype ptr">TXT</code></td>
+        <td><code>txt.example</code></td>
+        <td>
+          Responds with a valid TXT record containing one string of text.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype ptr">TXT</code></td>
+        <td><code>multiple.txt.example</code></td>
+        <td>
+          Responds with a valid TXT record containing two strings of text.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype ptr">TXT</code></td>
+        <td><code>utf8.txt.example</code></td>
+        <td>
+          Responds with a valid TXT record containing some UTF-8 text.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype ptr">TXT</code></td>
+        <td><code>limit.txt.example</code></td>
+        <td>
+          Responds with a valid TXT record containing exactly 255 bytes of text.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype txt">TXT</code></td>
+        <td><code>missing-data.txt.invalid</code></td>
+        <td>
+          Responds with a record containing zero bytes of text.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype txt">TXT</code></td>
+        <td><code>empty.txt.invalid</code></td>
+        <td>
+          Responds with a zero-length record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype txt">TXT</code></td>
+        <td><code>incomplete.txt.invalid</code></td>
+        <td>
+          Responds with a record that has some bytes missing.
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Sample URI records (qtype 256)</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><code class="qtype uri">URI</code></td>
+        <td><code>uri.example</code></td>
+        <td>
+          Responds with a record with <code>https://rfcs.io/</code> as the URI.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype uri">URI</code></td>
+        <td><code>slash.uri.example</code></td>
+        <td>
+          Responds with a record with <code>/</code> as the URI.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype uri">URI</code></td>
+        <td><code>missing-data.uri.invalid</code></td>
+        <td>
+          Responds with a record with priority and weight, but zero bytes of URI.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype uri">URI</code></td>
+        <td><code>empty.uri.invalid</code></td>
+        <td>
+          Responds with a zero-length record.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype uri">URI</code></td>
+        <td><code>incomplete.uri.invalid</code></td>
+        <td>
+          Responds with a record that has some bytes missing.
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Random responses</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><i>(any)</i></td>
+        <td><code>random-data.invalid</code></td>
+        <td>
+          Responds with several dozen bytes of random data, with no regard for correct DNS packet structure. Could be anything! <i>Only available over TCP.</i>
+        </td>
+      </tr>
+
+      <tr>
+        <td><i>(any)</i></td>
+        <td><code>random-records.invalid</code></td>
+        <td>
+          Responds with several packets with random qtypes, lengths, and contents, using the correct DNS packet structure. <i>Only available over TCP.</i>
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Oddball characters in domain names</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><code class="qtype a">A</code></td>
+        <td><code>null.char.example</code></td>
+        <td>
+          Responds with a domain name containing a null byte.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype a">A</code></td>
+        <td><code>newline.char.example</code></td>
+        <td>
+          Responds with a domain name containing a newline.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype a">A</code></td>
+        <td><code>tab.char.example</code></td>
+        <td>
+          Responds with a domain name containing a tab character.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype a">A</code></td>
+        <td><code>beep.char.example</code></td>
+        <td>
+          Responds with a domain name containing a beep.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype a">A</code></td>
+        <td><code>ansi.char.example</code></td>
+        <td>
+          Responds with a domain name containing ANSI escape codes.
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Malicious string compression</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><code class="qtype a">A</code></td>
+        <td><code>out-of-range.invalid</code></td>
+        <td>
+          Responds with a compressed domain name that points outside the packet.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype a">A</code></td>
+        <td><code>recursive-1.invalid</code></td>
+        <td>
+          Responds with a compressed domain name that points to itself.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype a">A</code></td>
+        <td><code>recursive-2.invalid</code></td>
+        <td>
+          Responds with a compressed domain name that points to another part of the packet, which points back to the original domain name location.
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Unusual yet technically valid packets</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><i>(any)</i></td>
+        <td><code>no-records.invalid</code></td>
+        <td>
+          Responds with a DNS packet containing no records.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype a">A</code></td>
+        <td><code>question.invalid</code></td>
+        <td>
+          Responds with a question instead of an answer.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype a">A</code></td>
+        <td><code>different.invalid</code></td>
+        <td>
+          Responds with the answer for a different domain than was queried.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype a">A</code></td>
+        <td><code>unknown-type.invalid</code></td>
+        <td>
+          Responds with a record containing a currently-unassigned record type. The record will contain data with the right length.
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Errors</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><i>(any)</i></td>
+        <td><code>formerr.invalid</code></td>
+        <td>
+          Responds with the <code>FormErr</code> error status and no records. This usually happens when the server is unable to interpret the query.
+        </td>
+      </tr>
+
+      <tr>
+        <td><i>(any)</i></td>
+        <td><code>servfail.invalid</code></td>
+        <td>
+          Responds with the <code>ServFail</code> error status and no records. This usually happens when there’s something wrong with the server.
+        </td>
+      </tr>
+
+      <tr>
+        <td><i>(any)</i></td>
+        <td><code>nxdomain.invalid</code></td>
+        <td>
+          Responds with the <code>NXDomain</code> error status and no records. This usually happens when the domain name referenced in the query does not exist.
+        </td>
+      </tr>
+
+      <tr>
+        <td><i>(any)</i></td>
+        <td><code>notimp.invalid</code></td>
+        <td>
+          Responds with the <code>NotImp</code> error status and no records. This usually happens when the server does not support one of the requested features.
+        </td>
+      </tr>
+
+      <tr>
+        <td><i>(any)</i></td>
+        <td><code>refused.invalid</code></td>
+        <td>
+          Responds with the <code>Refused</code> error status and no records. This usually happens when the server refuses to answer the query for whatever reason.
+        </td>
+      </tr>
+
+      <tr>
+        <td><i>(any)</i></td>
+        <td><code>other-error.invalid</code></td>
+        <td>
+          Responds with an error status with no currently-defined meaning.
+        </td>
+      </tr>
+
+      <tr>
+        <td><i>(any)</i></td>
+        <td><code>private-error.invalid</code></td>
+        <td>
+          Responds with an error status within the “Reserved for Private Use” range.
+        </td>
+      </tr>
+
+    </table>
+
+
+    <h2>What’s the difference between the .example and .invalid TLDs?</h2>
+
+    <p>
+      There are two TLDs that madns responds to:
+    </p>
+
+    <ul>
+      <li>Responses to <code>*.example</code> domains will have a correct DNS packet structure, and each record will be valid as well. Your client should parse these packets correctly. The data inside the records may be invalid for non-DNS reasons, but the packet structure will be correct.</li>
+      <li>Responses to <code>*.invalid</code> domains will have an <em>incorrect</em> DNS packet structure, or invalid record structures. Your client should detect these responses as malformed.</li>
+    </ul>
+
+
+    <h2>What’s the difference between all the invalid length domains?</h2>
+
+    <p>
+      DNS packets can be valid or invalid in several ways.
+      Each response packet contains several records, and each record has its length specified.
+    </p>
+
+    <ul>
+      <li><code>empty.*.invalid</code> responses will have the record length in the packet set to zero, and each record will contain no data.</li>
+      <li><code>incomplete.*.invalid</code> responses will have the record length in the packet set to a <em>non-zero</em> value, but the packet will end before this number of bytes have been read.
+      <li><code>too-long.*.invalid</code> and <code>too-short.*.invalid</code> responses are only applicable to record types that have a fixed length (such as 4 for <code>A</code> or 16 for <code>AAAA</code>). The record length in the packet will correctly refer to the number of bytes in the packet, even though this number differs from the length according to the specification (it’s the correct incorrect length).
+      <li><code>missing-data.*.invalid</code> responses will have a missing variable-length string, but all other parts of the record will be present. Whether this is invalid or not depends on the record type. The record length in the packet will be correct.
+    </ul>
+
+    <p>
+      DNS packets sent over TCP must be prefixed with the length of the packet. No matter which domain is queried, this length will <em>always</em> be correct, as getting it wrong results in connections hanging open rather than protocol parse errors.
+    </p>
+
+
+    <h2>Support</h2>
+
+    <p>
+      madns and dog is maintained by <a href="https://bsago.me/">Benjamin Sago</a>.
+    </p>
+
+    <p>
+      Note that madns comes with <em>no SLA or anything like that</em> — it may go down at any time without warning. Despite that proviso, I hope you find it useful.
+    </p>
+
+  </body>
+</html>

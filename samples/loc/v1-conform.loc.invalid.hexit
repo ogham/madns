@@ -1,0 +1,21 @@
+Flags: 81 80
+Counts: be16[1]  be16[1]  be16[0]  be16[0]
+
+Question:
+Domain: 0d "v1-conform" 03 "loc" 07 "invalid" 00
+Type: be16(DNS_LOC)
+Class: be16(DNS_IN)
+
+Answer:
+Domain: c0 0c
+Type: be16(DNS_LOC)
+Class: be16(DNS_IN)
+TTL: be32[600]
+Length: be16[16]
+Version: 01
+Size: 32
+Horizontal precision: 00
+Vertical precision: 00
+Latitude: 8b 0d 2c 8c
+Longitude: 7f f8 fc a5
+Altitude: 00 98 96 80

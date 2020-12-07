@@ -1,0 +1,17 @@
+Flags: 81 80
+Counts: be16[1]  be16[1]  be16[0]  be16[0]
+
+Question:
+Domain: 03 "opt" 07 "example" 00
+Type: be16(DNS_A)
+Class: be16(DNS_IN)
+
+Answer:
+Domain: c0 0c
+Type: be16(DNS_OPT)
+# Class and TTL are repurposed for OPT records
+UDP payload size: be16[1452]
+Higher bits: 00
+EDNS(0) version: 00 00
+Flags: 00 00
+Data: 00  # no data

@@ -1,0 +1,21 @@
+Flags: 81 80
+Counts: be16[1]  be16[1]  be16[0]  be16[0]
+
+Question:
+Domain: [22] "far-positive-longitude" 03 "loc" 07 "invalid" 00
+Type: be16(DNS_LOC)
+Class: be16(DNS_IN)
+
+Answer:
+Domain: c0 0c
+Type: be16(DNS_LOC)
+Class: be16(DNS_IN)
+TTL: be32[600]
+Length: be16[16]
+Version: 00
+Size: 32
+Horizontal precision: 00
+Vertical precision: 00
+Latitude: 80 00 00 00
+Longitude: a6 9f b2 01  # 0x80_00_00_00 + (1000 × 60 × 60 × 180) + 1
+Altitude: 00 98 96 80
