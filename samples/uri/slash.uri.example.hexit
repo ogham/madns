@@ -1,3 +1,8 @@
+# slash.uri.example
+#
+# Responds with a valid URI record, containing ‘/’ as the URI. This is not a
+# valid URI, but it’s still a valid DNS record.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

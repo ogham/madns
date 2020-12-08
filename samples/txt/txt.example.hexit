@@ -1,3 +1,8 @@
+# txt.example
+#
+# Responds with a valid TXT record, containing ‘Cache Invalidation and Naming
+# Things’ as the message.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

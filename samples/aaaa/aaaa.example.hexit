@@ -1,3 +1,7 @@
+# aaaa.example
+#
+# Responds with a valid AAAA record, containing the IPv6 address ‘::1’.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

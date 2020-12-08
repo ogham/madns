@@ -1,3 +1,8 @@
+# openpgpkey.example
+#
+# Responds with a valid OPENPGPKEY record, containing the hex bytes ‘12 34 56
+# 78’ as the key.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

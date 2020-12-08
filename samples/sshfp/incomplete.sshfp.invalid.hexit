@@ -1,3 +1,8 @@
+# incomplete.sshfp.invalid
+#
+# Responds with a SSHFP record that has a longer length, but is missing the
+# fingerprint type and key fields.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

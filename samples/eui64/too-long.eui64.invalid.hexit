@@ -1,3 +1,7 @@
+# too-long.eui64.invalid
+#
+# Responds with an invalid EUI64 record containing nine bytes instead of eight.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 
@@ -12,4 +16,4 @@ Type: be16(DNS_EUI64)
 Class: be16(DNS_IN)
 TTL: be32[600]
 Length: be16[8]
-Address: 12 34 56 ff fe 78 90 AB
+Address: 12 34 56 ff fe 78 90 AB CD

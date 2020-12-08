@@ -1,3 +1,9 @@
+# naptr.example
+#
+# Responds with a valid NAPTR record, containing an order of 5, a preference
+# of 10, the ‘s’ flag, the ‘\d\d:\d\d:\d\’ regex, and a replacement of
+# ‘srv.example’.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

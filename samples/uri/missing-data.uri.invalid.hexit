@@ -1,3 +1,9 @@
+# missing-data.uri.invalid
+#
+# Responds with a URI record containing the priority and weight fields, but no
+# URI field. The length of the final field is calculated from the record
+# length field, and it cannot be zero.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

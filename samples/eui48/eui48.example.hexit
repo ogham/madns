@@ -1,3 +1,8 @@
+# eui48.example
+#
+# Responds with a valid EUI48 record, containing the address
+# ‘12-34-56-78-90-ab’.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

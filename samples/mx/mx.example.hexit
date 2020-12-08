@@ -1,3 +1,8 @@
+# mx.example
+#
+# Responds with a valid MX record, containing a preference of 20, pointing to
+# ‘exchange.example’.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

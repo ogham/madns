@@ -1,3 +1,7 @@
+# empty.eui64.invalid
+#
+# Responds with a zero-length EUI64 record.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

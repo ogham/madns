@@ -1,3 +1,8 @@
+# srv.example
+#
+# Responds with a valid SRV record, containing priority 1, weight 1, port
+# 37500, and target ‘service.example’.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

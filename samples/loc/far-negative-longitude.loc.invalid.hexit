@@ -1,3 +1,8 @@
+# far-negative-latitude.loc.invalid
+#
+# Responds with a LOC record where the longitude field is out-of-range, too far
+# into the negative.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

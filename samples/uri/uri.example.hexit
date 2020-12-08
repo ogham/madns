@@ -1,3 +1,7 @@
+# uri.example
+#
+# Responds with a valid URI record, containing ‘rfcs.io’ as the URI.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 
@@ -14,4 +18,4 @@ TTL: be32[600]
 Length: be16[27]
 Priority: be16[10]
 Weight: be16[16]
-URI: "https://html5zombo.com/"
+URI: "https://rfcs.io/"

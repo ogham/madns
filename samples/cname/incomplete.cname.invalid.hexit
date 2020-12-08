@@ -1,3 +1,7 @@
+# incomplete.cname.invalid
+#
+# Responds with a CNAME record containing a string that gets cut off.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

@@ -1,3 +1,8 @@
+# incomplete.tlsa.invalid
+#
+# Responds with a TLSA record that has the right length for some data, but
+# with the data field missing.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

@@ -1,3 +1,7 @@
+# too-short.eui48.invalid
+#
+# Responds with an invalid EUI48 record containing five bytes instead of six.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 
@@ -11,5 +15,5 @@ Domain: c0 0c
 Type: be16(DNS_EUI48)
 Class: be16(DNS_IN)
 TTL: be32[600]
-Length: be16[6]
-Address: 12 34 56 78 90 AB
+Length: be16[5]
+Address: 12 34 56 78 90

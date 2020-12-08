@@ -1,3 +1,9 @@
+# v1-conform.loc.invalid
+#
+# Responds with a LOC record where the version number is set to 1, rather than
+# 0, but the rest of the record holds the same data as in the version 0
+# format.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

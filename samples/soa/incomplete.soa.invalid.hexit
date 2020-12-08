@@ -1,3 +1,8 @@
+# incomplete.soa.invalid
+#
+# Responds with an SOA record that has the length of a longer record, but is
+# missing some fields at the end.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 
@@ -11,8 +16,9 @@ Domain: c0 0c
 Type: be16(DNS_SOA)
 Class: be16(DNS_IN)
 TTL: be32[600]
+Length: be16[50]
 MNAME: 05 "mname" 07 "example" 00
 RNAME: 05 "rname" 07 "example" 00
 Serial: be32[1564274434]
-Refresh inetrval: be32[86400]
+Refresh interval: be32[86400]
 # missing some fields

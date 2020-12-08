@@ -1,3 +1,9 @@
+# loc.example
+#
+# Responds with a valid LOC record, containing a size of 3e2, precisions of
+# zero, a longitude of 51°30′12.748″ N, a latitude of 0°7′39.611″ W, and an
+# altitude of 0 m.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

@@ -1,3 +1,8 @@
+# incomplete.caa.invalid
+#
+# Responds with a CAA record with the flags and tag fields present, but a
+# missing value field.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

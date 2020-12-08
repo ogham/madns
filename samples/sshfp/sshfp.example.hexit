@@ -1,3 +1,8 @@
+# sshfp.example
+#
+# Responds with a valid SSHFP key, containing the ‘21 22 23 24 25 26’ hex
+# bytes as the data, algorithm 1, and fingerprint type 1.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

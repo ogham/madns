@@ -1,3 +1,8 @@
+# critical.caa.example
+#
+# Responds with a valid CAA record, containing ‘issuewild’ as the tag,
+# ‘trustworthy.example’ as the value, and the ‘critical’ flag set.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

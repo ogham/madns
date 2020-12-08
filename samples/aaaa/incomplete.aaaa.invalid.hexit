@@ -1,3 +1,8 @@
+# incomplete.aaaa.invalid
+#
+# Responds with an AAAA record that has the correct number of bytes as its
+# length (sixteen), but only four bytes are present.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

@@ -1,3 +1,8 @@
+# incomplete.eui48.invalid
+#
+# Responds with an invalid EUI48 record that has the correct number of bytes
+# as its length (six), but with only three bytes present in the packet.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

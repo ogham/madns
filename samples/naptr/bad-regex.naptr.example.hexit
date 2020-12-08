@@ -1,3 +1,8 @@
+# bad-regex.naptr.example
+#
+# Responds with a NAPTR record containing a regex with invalid syntax. The DNS
+# packet is well-structured, even if the regex is not.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

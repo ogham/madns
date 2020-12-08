@@ -1,3 +1,8 @@
+# incomplete.mx.invalid
+#
+# Responds with an MX record with the length of a longer record, but with the
+# exchange field missing.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

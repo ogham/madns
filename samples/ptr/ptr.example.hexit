@@ -1,3 +1,7 @@
+# ptr.example
+#
+# Responds with a valid PTR record that points to ‘dns.example’.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

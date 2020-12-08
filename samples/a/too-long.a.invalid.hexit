@@ -1,3 +1,7 @@
+# too-long.a.invalid
+#
+# Responds with an invalid A record containing five bytes of IP instead of four.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 

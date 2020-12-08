@@ -1,3 +1,7 @@
+# ns.example
+#
+# Responds with a valid NS record that points to ‘a.gtld-servers.net’.
+
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 
