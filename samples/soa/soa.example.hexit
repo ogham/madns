@@ -20,7 +20,7 @@ Length: be16[50]
 MNAME: 05 "mname" 07 "example" 00
 RNAME: 05 "rname" 07 "example" 00
 Serial: be32[1564274434]
-Refresh inetrval: be32[86400]
-Retry inetrval: be32[7200]
+Refresh interval: be32[86400]
+Retry interval: be32[7200]
 Expire limit: be32[604800]
 Minimum TTL: be32[300]
