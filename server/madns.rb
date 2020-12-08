@@ -66,8 +66,6 @@ module Madns
     # Open a socket and continually waits for requests, parsing each one and
     # sending back the response. Never returns.
     def listen_and_block(transport)
-      puts "Listening..."
-
       loop do
         transport.wait_and_handle_request do |str|
           txid, req = Request.parse(StringIO.new(str))
@@ -208,6 +206,8 @@ module Madns
   # A transport that sends and receives data over UDP.
   class UdpTransport
     def initialize(bind_addr, port)
+      puts "Listening on UDP port #{port}, binding to #{bind_addr}"
+
       @socket = UDPSocket.new
       @socket.bind(bind_addr, port)
     end
@@ -227,6 +227,8 @@ module Madns
   # spec, these messages are prefixed by the length.
   class TcpTransport
     def initialize(bind_addr, port)
+      puts "Listening on TCP port #{port}, binding to #{bind_addr}"
+
       @server = TCPServer.new(bind_addr, port)
     end
 

@@ -1,5 +1,5 @@
 @serve:
-    ./server/madns.rb
+    ./server/madns.rb --udp --port=5300 --bind='127.0.0.1' --dir=./samples
 
 @syntax-check:
     #!/bin/sh
