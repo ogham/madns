@@ -1,0 +1,20 @@
+# too-long.aaaa.invalid
+#
+# Responds with an invalid AAAA record containing seventeen bytes of IP
+# instead of sixteen.
+
+Flags: 81 80
+Counts: be16[1]  be16[1]  be16[0]  be16[0]
+
+Question:
+Domain:08 "too-long" 04 "aaaa" 07 "invalid" 00
+Type: be16(DNS_AAAA)
+Class: be16(DNS_IN)
+
+Answer:
+Domain: c0 0c
+Type: be16(DNS_AAAA)
+Class: be16(DNS_IN)
+TTL: be32[600]
+Length: be16[17]
+IP: [::1] 01
