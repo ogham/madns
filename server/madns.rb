@@ -113,6 +113,12 @@ module Madns
         return respond_with_flags(txid, FLAGS[:refused])
       end
 
+      # Handle A record cases that aren’t anything to do with A records, but
+      # require A because the response type is hard-coded in them
+      if req.qtype == 'a' && File.exist?(__dir__ + "/../samples/special/#{req.domain}.hexit")
+        req.qtype = 'special'
+      end
+
       # If the domain is not one of the known ones, return NOTIMP.
       if ! File.exist?(__dir__ + "/../samples/#{req.qtype}/#{req.domain}.hexit")
         puts "ERR #{req.domain} question"

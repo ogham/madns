@@ -1,0 +1,28 @@
+# recursive-2.invalid
+#
+# Responds with an A record, where the domain contains a compressed string
+# that points to another compressed string which points back to the first one.
+
+Flags: 81 80
+Counts: be16[1]  be16[2]  be16[0]  be16[0]  # 2 answers
+
+Question:
+Domain: 0b "recursive-1" 07 "invalid" 00
+Type: be16(DNS_A)
+Class: be16(DNS_IN)
+
+Answer 1:
+Domain: c0 35  # read from byte 53 of the packet, which is Answer 2’s ‘c0’ byte here
+Type: be16(DNS_A)
+Class: be16(DNS_IN)
+TTL: be32[600]
+Length: be16[4]
+IP: [127.0.0.1]
+
+Answer 2:
+Domain: c0 25  # read from byte 37 of the packet, which is Answer 1’s ‘c0’ byte here
+Type: be16(DNS_A)
+Class: be16(DNS_IN)
+TTL: be32[600]
+Length: be16[4]
+IP: [127.0.0.1]
