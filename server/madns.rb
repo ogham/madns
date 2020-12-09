@@ -15,7 +15,7 @@ module Madns
       @domain = domain
     end
 
-    attr_reader :qtype, :domain
+    attr_accessor :qtype, :domain
 
     # Parse bytes from the given IO source into a request. Returns the
     # transaction ID (the first two bytes) and a Request object, which will be
@@ -79,24 +79,51 @@ module Madns
     # Constructs a DNS response as a string of bytes, given a parsed request’s
     # transaction ID, type, and domain.
     def respond_to_request(txid, req)
+
+      # If there was an error parsing the request (even though we do as little
+      # parsing as possible) return REFUSED.
       if req.nil?
-        return respond_with_flags(txid, 0x8185)
+        puts "[parse-error]"
+        return respond_with_flags(txid, FLAGS[:refused])
       end
 
-      if req.domain == 'random-data.invalid'
+      # Handle special cases for responses that don’t use Hexit, or respond
+      # the same way to any record type.
+      case req.domain
+      when 'random-data.invalid'
         puts "[random] #{req.domain.inspect}"
         return respond_with_data(txid, Random.new.bytes(988))
+      when 'no-records.invalid'
+        puts "[flags] #{req.domain.inspect}"
+        return respond_with_flags(txid, FLAGS[:success])
+      when 'formerr.invalid'
+        puts "[flags] #{req.domain.inspect}"
+        return respond_with_flags(txid, FLAGS[:formerr])
+      when 'servfail.invalid'
+        puts "[flags] #{req.domain.inspect}"
+        return respond_with_flags(txid, FLAGS[:servfail])
+      when 'nxdomain.invalid'
+        puts "[flags] #{req.domain.inspect}"
+        return respond_with_flags(txid, FLAGS[:nxdomain])
+      when 'notimp.invalid'
+        puts "[flags] #{req.domain.inspect}"
+        return respond_with_flags(txid, FLAGS[:notimp])
+      when 'refused.invalid'
+        puts "[flags] #{req.domain.inspect}"
+        return respond_with_flags(txid, FLAGS[:refused])
       end
 
+      # If the domain is not one of the known ones, return NOTIMP.
       if ! File.exist?(__dir__ + "/../samples/#{req.qtype}/#{req.domain}.hexit")
         puts "ERR #{req.domain} question"
-        return respond_with_flags(txid, 0x8184)
+        return respond_with_flags(txid, FLAGS[:notimp])
       end
 
+      # Run Hexit and respond with the data.
       puts "[#{req.qtype}] #{req.domain.inspect}"
       hexit_output = @args.run_hexit(req)
       if hexit_output.nil?
-        return respond_with_flags(txid, 0x8182)
+        return respond_with_flags(txid, FLAGS[:servfail])
       end
 
       respond_with_data(txid, hexit_output)
@@ -248,6 +275,15 @@ module Madns
       socket.send(response, 0)
     end
   end
+
+  FLAGS = {
+    success: 0x8180,
+    formerr: 0x8181,
+    servfail: 0x8182,
+    nxdomain: 0x8183,
+    notimp: 0x8184,
+    refused: 0x8185,
+  }
 end
 
 
