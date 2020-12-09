@@ -59,8 +59,8 @@ module Madns
   # The DNS server class, which handles incoming connections, Hexit
   # invocation, and response construction.
   class Server
-    def initialize(hexit)
-      @hexit = hexit
+    def initialize(samples)
+      @samples = samples
     end
 
     # Open a socket and continually waits for requests, parsing each one and
@@ -115,19 +115,19 @@ module Madns
 
       # Handle A record cases that aren’t anything to do with A records, but
       # require A because the response type is hard-coded in them
-      if req.qtype == 'a' && File.exist?(__dir__ + "/../samples/special/#{req.domain}.hexit")
+      if req.qtype == 'a' && @samples.exist?('special', req.domain)
         req.qtype = 'special'
       end
 
       # If the domain is not one of the known ones, return NOTIMP.
-      if ! File.exist?(__dir__ + "/../samples/#{req.qtype}/#{req.domain}.hexit")
+      if ! @samples.exist?(req.qtype, req.domain)
         puts "ERR #{req.domain} question"
         return respond_with_flags(txid, FLAGS[:notimp])
       end
 
       # Run Hexit and respond with the data.
       puts "[#{req.qtype}] #{req.domain.inspect}"
-      hexit_output = @hexit.run(req)
+      hexit_output = @samples.run(req)
       if hexit_output.nil?
         return respond_with_flags(txid, FLAGS[:servfail])
       end
@@ -227,8 +227,8 @@ module Madns
     end
 
     # Creates a new Hexit runner using the samples directory.
-    def hexit
-      Hexit.new(@samples_dir)
+    def samples
+      Samples.new(@samples_dir)
     end
   end
 
@@ -281,9 +281,14 @@ module Madns
 
 
   # A class that encapsulates looking for samples and running Hexit on them.
-  class Hexit
+  class Samples
     def initialize(dir)
       @dir = dir
+    end
+
+    # Tests whether a sample exists at the given name in the subdirectory.
+    def exist?(subdirectory, domain)
+      File.exist?("#{@dir}/#{subdirectory}/#{domain}.hexit")
     end
 
     # Runs Hexit on a file in the samples directory, specified by the request
@@ -295,20 +300,21 @@ module Madns
     end
   end
 
+
   # Mapping of error code names to flags fields for standard responses
   # containing the given error.
   FLAGS = {
-    success:  0x8180,
-    formerr:  0x8181,
-    servfail: 0x8182,
-    nxdomain: 0x8183,
-    notimp:   0x8184,
-    refused:  0x8185,
+    success:   0x8180,
+    formerr:   0x8181,
+    servfail:  0x8182,
+    nxdomain:  0x8183,
+    notimp:    0x8184,
+    refused:   0x8185,
   }
 end
 
 
 if $PROGRAM_NAME == __FILE__
   args = Madns::Options.parse(ARGV)
-  Madns::Server.new(args.hexit).listen_and_block(args.open_transport)
+  Madns::Server.new(args.samples).listen_and_block(args.open_transport)
 end
