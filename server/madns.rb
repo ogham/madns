@@ -6,9 +6,23 @@ require 'yaml'
 
 
 module Madns
+
+  # Mapping of record type numbers to names.
   RTYPES = YAML.load_file(__dir__ + '/rtypes.yml')
 
-  # A DNS request.
+  # Mapping of error code names to flags fields for standard responses
+  # containing the given error.
+  FLAGS = {
+    success:   0x8180,
+    formerr:   0x8181,
+    servfail:  0x8182,
+    nxdomain:  0x8183,
+    notimp:    0x8184,
+    refused:   0x8185,
+  }
+
+
+  # A DNS request, parsed into the essential components that madns needs.
   class Request
     def initialize(qtype, domain)
       @qtype = qtype
@@ -150,6 +164,74 @@ module Madns
   end
 
 
+  # A transport that sends and receives data over UDP.
+  class UdpTransport
+    def initialize(bind_addr, port)
+      puts "Listening on UDP port #{port}, binding to #{bind_addr}"
+
+      @socket = UDPSocket.new
+      @socket.bind(bind_addr, port)
+    end
+
+    def wait_and_handle_request
+      payload, client = @socket.recvfrom(1024)
+      # client is: address_family, port, hostname, numeric_address
+      puts "RECV #{client[3]}"
+
+      response = yield payload
+      @socket.send(response, 0, client[3], client[1])
+    end
+  end
+
+
+  # A transport that sends and receives data over TCP. According to the DNS
+  # spec, these messages are prefixed by the length.
+  class TcpTransport
+    def initialize(bind_addr, port)
+      puts "Listening on TCP port #{port}, binding to #{bind_addr}"
+
+      @server = TCPServer.new(bind_addr, port)
+    end
+
+    def wait_and_handle_request
+      socket = @server.accept
+
+      payload_len_str = socket.read(2)
+      if payload_len_str.nil?
+        return nil
+      end
+
+      payload_len = payload_len_str.unpack('n').first
+      payload = socket.read(payload_len)
+
+      response = yield payload
+      socket.send([response.length].pack('n'), 0)
+      socket.send(response, 0)
+    end
+  end
+
+
+  # A class that encapsulates looking for samples and running Hexit on them.
+  class Samples
+    def initialize(dir)
+      @dir = dir
+    end
+
+    # Tests whether a sample exists at the given name in the subdirectory.
+    def exist?(subdirectory, domain)
+      File.exist?("#{@dir}/#{subdirectory}/#{domain}.hexit")
+    end
+
+    # Runs Hexit on a file in the samples directory, specified by the request
+    # type and domain, returning its output as a String if successful, or nil
+    # if unsuccessful.
+    def run(req)
+      out = `hexit #{@dir}/#{req.qtype}/#{req.domain}.hexit --raw`
+      out if $?.success?
+    end
+  end
+
+
   # The user’s command-line options.
   class Options
     def initialize
@@ -232,85 +314,6 @@ module Madns
     end
   end
 
-
-  # A transport that sends and receives data over UDP.
-  class UdpTransport
-    def initialize(bind_addr, port)
-      puts "Listening on UDP port #{port}, binding to #{bind_addr}"
-
-      @socket = UDPSocket.new
-      @socket.bind(bind_addr, port)
-    end
-
-    def wait_and_handle_request
-      payload, client = @socket.recvfrom(1024)
-      # client is: address_family, port, hostname, numeric_address
-      puts "RECV #{client[3]}"
-
-      response = yield payload
-      @socket.send(response, 0, client[3], client[1])
-    end
-  end
-
-
-  # A transport that sends and receives data over TCP. According to the DNS
-  # spec, these messages are prefixed by the length.
-  class TcpTransport
-    def initialize(bind_addr, port)
-      puts "Listening on TCP port #{port}, binding to #{bind_addr}"
-
-      @server = TCPServer.new(bind_addr, port)
-    end
-
-    def wait_and_handle_request
-      socket = @server.accept
-
-      payload_len_str = socket.read(2)
-      if payload_len_str.nil?
-        return nil
-      end
-
-      payload_len = payload_len_str.unpack('n').first
-      payload = socket.read(payload_len)
-
-      response = yield payload
-      socket.send([response.length].pack('n'), 0)
-      socket.send(response, 0)
-    end
-  end
-
-
-  # A class that encapsulates looking for samples and running Hexit on them.
-  class Samples
-    def initialize(dir)
-      @dir = dir
-    end
-
-    # Tests whether a sample exists at the given name in the subdirectory.
-    def exist?(subdirectory, domain)
-      File.exist?("#{@dir}/#{subdirectory}/#{domain}.hexit")
-    end
-
-    # Runs Hexit on a file in the samples directory, specified by the request
-    # type and domain, returning its output as a String if successful, or nil
-    # if unsuccessful.
-    def run(req)
-      out = `hexit #{@dir}/#{req.qtype}/#{req.domain}.hexit --raw`
-      out if $?.success?
-    end
-  end
-
-
-  # Mapping of error code names to flags fields for standard responses
-  # containing the given error.
-  FLAGS = {
-    success:   0x8180,
-    formerr:   0x8181,
-    servfail:  0x8182,
-    nxdomain:  0x8183,
-    notimp:    0x8184,
-    refused:   0x8185,
-  }
 end
 
 
