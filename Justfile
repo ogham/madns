@@ -1,6 +1,10 @@
-# Start a local development server.
-@serve:
+# Start a local UDP development server.
+@serve-udp:
     ./server/madns.rb --udp --port={{default_port}} --bind='127.0.0.1' --dir=./samples
+
+# Start a local TCP development server.
+@serve-tcp:
+    ./server/madns.rb --tcp --port={{default_port}} --bind='127.0.0.1' --dir=./samples
 
 # Checks the syntax of all the Hexit files.
 @syntax-check:
