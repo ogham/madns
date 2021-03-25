@@ -23,6 +23,11 @@ check-against-dig-local:
         done
     done
 
+# Runs Rubocop through Docker to lint the server code.
+lint-using-docker:
+    docker run --rm --volume "$PWD/server:/madns-server:ro" pipelinecomponents/rubocop \
+        rubocop /madns-server -E --only Lint,Migration,Naming,Security
+
 
 # ---- configuration ----
 
