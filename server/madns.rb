@@ -38,12 +38,12 @@ module Madns
     # extract the first query, without worrying about edge-cases.
     def self.parse(io)
       txid = io.read(2).unpack('n').first
-      flags = io.read(2).unpack('n').first
+      _flags = io.read(2).unpack('n').first
 
       questions_count = io.read(2).unpack('n').first
       answers_count = io.read(2).unpack('n').first
       authorities_count = io.read(2).unpack('n').first
-      additionals_count = io.read(2).unpack('n').first
+      _additionals_count = io.read(2).unpack('n').first
       # some clients will send an OPT which is opt-ional
       if [questions_count, answers_count, authorities_count] != [1, 0, 0]
         return [txid, nil]
@@ -63,7 +63,7 @@ module Madns
       if qtype.nil?
         return [txid, nil]
       end
-      qclass = io.read(2).unpack('n').first
+      _qclass = io.read(2).unpack('n').first
 
       [txid, new(qtype, domain)]
     end
@@ -83,7 +83,7 @@ module Madns
       loop do
         transport.wait_and_handle_request do |str|
           txid, req = Request.parse(StringIO.new(str))
-          res = respond_to_request(txid, req)
+          respond_to_request(txid, req)
         end
       end
     end
@@ -252,7 +252,7 @@ module Madns
     def self.parse(argv)
       args = new
 
-      opt_parser = OptionParser.new do |opts|
+      OptionParser.new do |opts|
         opts.banner = "Usage: madns.rb [options]"
 
         opts.on("-bADDR", "--bind=ADDR", "Network address to bind to") do |n|
@@ -263,11 +263,11 @@ module Madns
           args.port = n
         end
 
-        opts.on("--tcp", "Serve over TCP") do |n|
+        opts.on("--tcp", "Serve over TCP") do ||
           args.proto = :tcp
         end
 
-        opts.on("--udp", "Serve over UDP") do |n|
+        opts.on("--udp", "Serve over UDP") do ||
           args.proto = :udp
         end
 
