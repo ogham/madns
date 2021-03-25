@@ -37,13 +37,13 @@ module Madns
     # production-grade parser; we just have do to enough protocol parsing to
     # extract the first query, without worrying about edge-cases.
     def self.parse(io)
-      txid = io.read(2).unpack('n').first
-      _flags = io.read(2).unpack('n').first
+      txid = io.read(2).unpack1('n')
+      _flags = io.read(2).unpack1('n')
 
-      questions_count = io.read(2).unpack('n').first
-      answers_count = io.read(2).unpack('n').first
-      authorities_count = io.read(2).unpack('n').first
-      _additionals_count = io.read(2).unpack('n').first
+      questions_count = io.read(2).unpack1('n')
+      answers_count = io.read(2).unpack1('n')
+      authorities_count = io.read(2).unpack1('n')
+      _additionals_count = io.read(2).unpack1('n')
       # some clients will send an OPT which is opt-ional
       if [questions_count, answers_count, authorities_count] != [1, 0, 0]
         return [txid, nil]
@@ -51,19 +51,19 @@ module Madns
 
       domain_parts = []
       loop do
-        count = io.read(1).unpack('C').first
+        count = io.read(1).unpack1('C')
         break if count.zero?   # no need to decrement the counter
         domain_parts << io.read(count)
       end
 
       domain = domain_parts.join('.')
 
-      qtype = io.read(2).unpack('n').first
+      qtype = io.read(2).unpack1('n')
       qtype = RTYPES[qtype]
       if qtype.nil?
         return [txid, nil]
       end
-      _qclass = io.read(2).unpack('n').first
+      _qclass = io.read(2).unpack1('n')
 
       [txid, new(qtype, domain)]
     end
@@ -210,7 +210,7 @@ module Madns
         return nil
       end
 
-      payload_len = payload_len_str.unpack('n').first
+      payload_len = payload_len_str.unpack1('n')
       payload = socket.read(payload_len)
 
       response = yield payload
