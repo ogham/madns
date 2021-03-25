@@ -81,9 +81,14 @@ module Madns
     # sending back the response. Never returns.
     def listen_and_block(transport)
       loop do
-        transport.wait_and_handle_request do |str|
-          txid, req = Request.parse(StringIO.new(str))
-          respond_to_request(txid, req)
+        begin
+          transport.wait_and_handle_request do |str|
+            txid, req = Request.parse(StringIO.new(str))
+            respond_to_request(txid, req)
+          end
+        rescue => e
+          puts "ERROR (Internal error: #{e.message})"
+          puts e.backtrace
         end
       end
     end
@@ -140,12 +145,12 @@ module Madns
       end
 
       # Run Hexit and respond with the data.
-      puts "[#{req.qtype}] #{req.domain.inspect}"
       hexit_output = @samples.run(req)
       if hexit_output.nil?
         return respond_with_flags(txid, FLAGS[:servfail])
       end
 
+      puts "[#{req.qtype}] #{req.domain.inspect}"
       respond_with_data(txid, hexit_output)
     end
 
