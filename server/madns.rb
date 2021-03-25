@@ -97,7 +97,7 @@ module Madns
       # If there was an error parsing the request (even though we do as little
       # parsing as possible) return REFUSED.
       if req.nil?
-        puts "[parse-error]"
+        puts "ERROR (could not decode request packet)"
         return respond_with_flags(txid, FLAGS[:refused])
       end
 
@@ -135,7 +135,7 @@ module Madns
 
       # If the domain is not one of the known ones, return NOTIMP.
       if ! @samples.exist?(req.qtype, req.domain)
-        puts "ERR #{req.domain} question"
+        puts "ERROR (unknown domain #{req.domain.inspect})"
         return respond_with_flags(txid, FLAGS[:notimp])
       end
 
@@ -176,7 +176,7 @@ module Madns
     def wait_and_handle_request
       payload, client = @socket.recvfrom(1024)
       # client is: address_family, port, hostname, numeric_address
-      puts "RECV #{client[3]}"
+      print client[3] + ': '
 
       response = yield payload
       @socket.send(response, 0, client[3], client[1])
@@ -195,6 +195,10 @@ module Madns
 
     def wait_and_handle_request
       socket = @server.accept
+
+      # client is: address_family, port, hostname, numeric_address
+      client = socket.peeraddr
+      print client[3] + ': '
 
       payload_len_str = socket.read(2)
       if payload_len_str.nil?
