@@ -28,7 +28,7 @@
     <h2>Usage</h2>
 
     <p>
-      To use madns, make DNS requests to <code>madns.binarystar.systems</code> on port 5353.
+      To use madns, make DNS requests to <code>madns.binarystar.systems</code> on port 5301.
     </p>
 
     <p>
@@ -56,14 +56,14 @@
       If you just want to try something quickly, you can test dog’s error handling by resolving one of the domains in the table below. Here’s one that’s valid:
     </p>
 
-    <pre>$ dog @madns.binarystar.systems:5353 TXT txt.example
+    <pre>$ dog @madns.binarystar.systems:5301 TXT txt.example
 TXT txt.example. 10m00s   "Cache Invalidation and Naming Things"</pre>
 
     <p>
       And here’s one that’s invalid:
     </p>
 
-    <pre>$ dog @madns.binarystar.systems:5353 TXT empty.txt.invalid
+    <pre>$ dog @madns.binarystar.systems:5301 TXT empty.txt.invalid
 Error [protocol]: Malformed packet: insufficient data</pre>
 
 
