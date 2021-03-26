@@ -1,17 +1,20 @@
 # incomplete.aaaa.invalid
 #
-# Responds with an AAAA record that has the correct number of bytes as its
-# length (sixteen), but only four bytes are present.
+# Responds with an AAAA record that has the correct number of bytes specified
+# as its length (sixteen), but with only four bytes present.
 
+
+# DNS header
+# (minus transaction ID)
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 
-Question:
+# Question
 Domain: 0a "incomplete" 04 "aaaa" 07 "invalid" 00
 Type: be16(DNS_AAAA)
 Class: be16(DNS_IN)
 
-Answer:
+# Answer
 Domain: c0 0c
 Type: be16(DNS_AAAA)
 Class: be16(DNS_IN)

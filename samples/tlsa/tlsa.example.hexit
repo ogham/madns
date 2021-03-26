@@ -3,15 +3,18 @@
 # Responds with a valid TLSA record, containing the ‘11 22 33 44 55 66’ hex
 # bytes as the data, certificate usage 3, selector 1, and matching type 1.
 
+
+# DNS header
+# (minus transaction ID)
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 
-Question:
+# Question
 Domain: 04 "tlsa" 07 "example" 00
 Type: be16(DNS_TLSA)
 Class: be16(DNS_IN)
 
-Answer:
+# Answer
 Domain: c0 0c
 Type: be16(DNS_TLSA)
 Class: be16(DNS_IN)

@@ -28,20 +28,22 @@ madns is written in Ruby and Hexit.
 
 The server is written in Ruby using the networking facilities in the standard library. It uses no third-party gems.
 
-The DNS packet samples are written in [Hexit](https://github.com/ogham/hexit), a mini-language specifically constructed for writing network packets and other binary data while still being more-or-less readable. The Ruby server invokes a `hexit` command, so you will need to have the binary somewhere in your `$PATH`.
+The DNS packet samples are written in [Hexit](https://github.com/ogham/hexit), a mini-language specifically constructed for writing network packets and other binary data while still being readable to those seeing it for the first time. The Ruby server invokes a `hexit` command, so you will need to have the binary somewhere in your `$PATH`.
 
-For example, here’s the code to generate the response for `a.example` response, which exists in the `a.example.hexit` file in the `a` folder in the samples directory:
+For example, here’s the code to generate the response to a query for `a.example`, which exists in the `a.example.hexit` file in the `a` folder in the samples directory:
 
 ```hexit
+# DNS header
+# (minus transaction ID)
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 
-Question:
+# Question
 Domain: 01 "a" 07 "example" 00
 Type: be16(DNS_A)
 Class: be16(DNS_IN)
 
-Answer:
+# Answer
 Domain: c0 0c
 Type: be16(DNS_A)
 Class: be16(DNS_IN)

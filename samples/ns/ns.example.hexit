@@ -2,15 +2,18 @@
 #
 # Responds with a valid NS record that points to ‘a.gtld-servers.net’.
 
+
+# DNS header
+# (minus transaction ID)
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 
-Question:
+# Question
 Domain: 02 "ns" 07 "example" 00
 Type: be16(DNS_NS)
 Class: be16(DNS_IN)
 
-Answer:
+# Answer
 Domain: c0 0c
 Type: be16(DNS_NS)
 Class: be16(DNS_IN)

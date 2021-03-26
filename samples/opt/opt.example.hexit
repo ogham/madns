@@ -3,15 +3,18 @@
 # Responds with a valid OPT record, containing a payload size of 1452, empty
 # everything else, and no data.
 
+
+# DNS header
+# (minus transaction ID)
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 
-Question:
+# Question
 Domain: 03 "opt" 07 "example" 00
 Type: be16(DNS_A)
 Class: be16(DNS_IN)
 
-Answer:
+# Answer
 Domain: c0 0c
 Type: be16(DNS_OPT)
 # Class and TTL are repurposed for OPT records

@@ -3,15 +3,18 @@
 # Responds with a valid MX record, containing a preference of 20, pointing to
 # ‘exchange.example’.
 
+
+# DNS header
+# (minus transaction ID)
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 
-Question:
+# Question
 Domain: 02 "mx" 07 "example" 00
 Type: be16(DNS_MX)
 Class: be16(DNS_IN)
 
-Answer:
+# Answer
 Domain: c0 0c
 Type: be16(DNS_MX)
 Class: be16(DNS_IN)

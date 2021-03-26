@@ -3,15 +3,18 @@
 # Responds with a valid URI record, containing ‘/’ as the URI. This is not a
 # valid URI, but it’s still a valid DNS record.
 
+
+# DNS header
+# (minus transaction ID)
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 
-Question:
+# Question
 Domain: 05 "slash" 03 "uri" 07 "example" 00
 Type: be16(DNS_URI)
 Class: be16(DNS_IN)
 
-Answer:
+# Answer
 Domain: c0 0c
 Type: be16(DNS_URI)
 Class: be16(DNS_IN)

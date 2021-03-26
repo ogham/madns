@@ -3,15 +3,18 @@
 # Responds with a valid SSHFP key, containing the ‘21 22 23 24 25 26’ hex
 # bytes as the data, algorithm 1, and fingerprint type 1.
 
+
+# DNS header
+# (minus transaction ID)
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 
-Question:
+# Question
 Domain: 05 "sshfp" 07 "example" 00
 Type: be16(DNS_SSHFP)
 Class: be16(DNS_IN)
 
-Answer:
+# Answer
 Domain: c0 0c
 Type: be16(DNS_SSHFP)
 Class: be16(DNS_IN)

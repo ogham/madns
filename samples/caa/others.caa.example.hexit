@@ -4,15 +4,18 @@
 # ‘trustworthy.example’ as the value, and every flag other than the ‘critical’
 # flag set. These flags currently have no defined meaning.
 
+
+# DNS header
+# (minus transaction ID)
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 
-Question:
+# Question
 Domain: 03 "caa" 07 "example" 00
 Type: be16(DNS_CAA)
 Class: be16(DNS_IN)
 
-Answer:
+# Answer
 Domain: c0 0c
 Type: be16(DNS_CAA)
 Class: be16(DNS_IN)

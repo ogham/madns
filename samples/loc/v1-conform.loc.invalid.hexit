@@ -4,15 +4,18 @@
 # 0, but the rest of the record holds the same data as in the version 0
 # format.
 
+
+# DNS header
+# (minus transaction ID)
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 
-Question:
+# Question
 Domain: 0d "v1-conform" 03 "loc" 07 "invalid" 00
 Type: be16(DNS_LOC)
 Class: be16(DNS_IN)
 
-Answer:
+# Answer
 Domain: c0 0c
 Type: be16(DNS_LOC)
 Class: be16(DNS_IN)

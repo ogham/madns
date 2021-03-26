@@ -3,15 +3,18 @@
 # Responds with a valid SOA record, containing an mname of ‘mname.example’, an
 # rname of ‘rname.example’, and various other values.
 
+
+# DNS header
+# (minus transaction ID)
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 
-Question:
+# Question
 Domain: 03 "soa" 07 "example" 00
 Type: be16(DNS_SOA)
 Class: be16(DNS_IN)
 
-Answer:
+# Answer
 Domain: c0 0c
 Type: be16(DNS_SOA)
 Class: be16(DNS_IN)

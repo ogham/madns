@@ -3,15 +3,18 @@
 # Responds with a NAPTR record containing a regex with invalid syntax. The DNS
 # packet is well-structured, even if the regex is not.
 
+
+# DNS header
+# (minus transaction ID)
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 
-Question:
+# Question
 Domain: 09 "bad-regex" 05 "naptr" 07 "example" 00
 Type: be16(DNS_NAPTR)
 Class: be16(DNS_IN)
 
-Answer:
+# Answer
 Domain: c0 0c
 Type: be16(DNS_NAPTR)
 Class: be16(DNS_IN)

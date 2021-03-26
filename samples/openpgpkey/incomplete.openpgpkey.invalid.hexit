@@ -1,16 +1,19 @@
 # incomplete.openpgpkey.invalid
 #
-# Responds with an OPENPGP record containing a key that gets cut off.
+# Responds with an OPENPGPKEY record containing a key that gets cut off.
 
+
+# DNS header
+# (minus transaction ID)
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 
-Question:
+# Question
 Domain: 0a "incomplete" 0a "openpgpkey" 07 "invalid" 00
 Type: be16(DNS_OPENPGPKEY)
 Class: be16(DNS_IN)
 
-Answer:
+# Answer
 Domain: c0 0c
 Type: be16(DNS_OPENPGPKEY)
 Class: be16(DNS_IN)

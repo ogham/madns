@@ -4,15 +4,18 @@
 # zero, a longitude of 51°30′12.748″ N, a latitude of 0°7′39.611″ W, and an
 # altitude of 0 m.
 
+
+# DNS header
+# (minus transaction ID)
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 
-Question:
+# Question
 Domain: 03 "loc" 07 "example" 00
 Type: be16(DNS_LOC)
 Class: be16(DNS_IN)
 
-Answer:
+# Answer
 Domain: c0 0c
 Type: be16(DNS_LOC)
 Class: be16(DNS_IN)

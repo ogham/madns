@@ -2,15 +2,18 @@
 #
 # Responds with a TXT record that gets cut off mid-way through the text field.
 
+
+# DNS header
+# (minus transaction ID)
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 
-Question:
+# Question
 Domain: 0a "incomplete" 03 "txt" 07 "invalid" 00
 Type: be16(DNS_TXT)
 Class: be16(DNS_IN)
 
-Answer:
+# Answer
 Domain: c0 0c
 Type: be16(DNS_TXT)
 Class: be16(DNS_IN)

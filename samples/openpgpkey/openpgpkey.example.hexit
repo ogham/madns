@@ -3,15 +3,18 @@
 # Responds with a valid OPENPGPKEY record, containing the hex bytes ‘12 34 56
 # 78’ as the key.
 
+
+# DNS header
+# (minus transaction ID)
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 
-Question:
+# Question
 Domain: 0a "openpgpkey" 07 "example" 00
 Type: be16(DNS_OPENPGPKEY)
 Class: be16(DNS_IN)
 
-Answer:
+# Answer
 Domain: c0 0c
 Type: be16(DNS_OPENPGPKEY)
 Class: be16(DNS_IN)

@@ -1,17 +1,20 @@
 # incomplete.a.invalid
 #
-# Responds with an A record that has the correct number of bytes as its length
-# (four), but only two bytes are present.
+# Responds with an A record that has the correct number of bytes specified as
+# its length (four), but with only two bytes present.
 
+
+# DNS header
+# (minus transaction ID)
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 
-Question:
+# Question
 Domain: 09 "too-short" 01 "a" 07 "invalid" 00
 Type: be16(DNS_A)
 Class: be16(DNS_IN)
 
-Answer:
+# Answer
 Domain: c0 0c
 Type: be16(DNS_A)
 Class: be16(DNS_IN)

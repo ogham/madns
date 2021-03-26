@@ -3,15 +3,18 @@
 # Responds with an A record, where the domain contains a compressed string
 # that points outside the packet.
 
+
+# DNS header
+# (minus transaction ID)
 Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[0]
 
-Question:
+# Question
 Domain: 0c "out-of-range" 07 "invalid" 00
 Type: be16(DNS_A)
 Class: be16(DNS_IN)
 
-Answer:
+# Answer
 Domain: c0 ff  # read from byte 255 of the packet, which does not exist
 Type: be16(DNS_A)
 Class: be16(DNS_IN)
