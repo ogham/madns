@@ -947,42 +947,42 @@ Error [protocol]: Malformed packet: insufficient data</pre>
       </tr>
 
       <tr>
-        <td><code class="qtype a">A</code></td>
-        <td><code>null.char.example</code></td>
-        <td>
-          Responds with a domain name containing a null byte.
-        </td>
-      </tr>
-
-      <tr>
-        <td><code class="qtype a">A</code></td>
-        <td><code>newline.char.example</code></td>
-        <td>
-          Responds with a domain name containing a newline.
-        </td>
-      </tr>
-
-      <tr>
-        <td><code class="qtype a">A</code></td>
-        <td><code>tab.char.example</code></td>
-        <td>
-          Responds with a domain name containing a tab character.
-        </td>
-      </tr>
-
-      <tr>
-        <td><code class="qtype a">A</code></td>
-        <td><code>beep.char.example</code></td>
-        <td>
-          Responds with a domain name containing a beep.
-        </td>
-      </tr>
-
-      <tr>
-        <td><code class="qtype a">A</code></td>
-        <td><code>ansi.char.example</code></td>
+        <td><code class="qtype cname">CNAME</code></td>
+        <td><code>ansi.str.example</code></td>
         <td>
           Responds with a domain name containing ANSI escape codes.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype cname">CNAME</code></td>
+        <td><code>newline.str.example</code></td>
+        <td>
+          Responds with a domain name containing newline characters.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype cname">CNAME</code></td>
+        <td><code>null.str.example</code></td>
+        <td>
+          Responds with a domain name containing null bytes.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype cname">CNAME</code></td>
+        <td><code>tab.str.example</code></td>
+        <td>
+          Responds with a domain name containing tab characters.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype cname">CNAME</code></td>
+        <td><code>upperbit.str.example</code></td>
+        <td>
+          Responds with a domain name containing bytes with the upper bit set (characters in the range 128 to 255).
         </td>
       </tr>
 
@@ -1019,7 +1019,7 @@ Error [protocol]: Malformed packet: insufficient data</pre>
       </tr>
 
 
-      <tr class="section"><th colspan="3">Unusual yet technically valid packets</th></tr>
+      <tr class="section"><th colspan="3">Unusual packet structure</th></tr>
       <tr class="headings">
         <th>qtype</th>
         <th>Domain</th>
@@ -1028,7 +1028,7 @@ Error [protocol]: Malformed packet: insufficient data</pre>
 
       <tr>
         <td><i>(any)</i></td>
-        <td><code>no-records.invalid</code></td>
+        <td><code>completely-empty.invalid</code></td>
         <td>
           Responds with a DNS packet containing no records.
         </td>
@@ -1036,25 +1036,25 @@ Error [protocol]: Malformed packet: insufficient data</pre>
 
       <tr>
         <td><code class="qtype a">A</code></td>
-        <td><code>question.invalid</code></td>
+        <td><code>missing-answers.invalid</code></td>
         <td>
-          Responds with a question instead of an answer.
+          Responds with a DNS packet containing the original question, but no answers.
         </td>
       </tr>
 
       <tr>
         <td><code class="qtype a">A</code></td>
-        <td><code>different.invalid</code></td>
+        <td><code>trailing-data.invalid</code></td>
         <td>
-          Responds with the answer for a different domain than was queried.
+          Responds with a DNS packet containing no records, but with some trailing bytes at the end.
         </td>
       </tr>
 
       <tr>
-        <td><code class="qtype a">A</code></td>
-        <td><code>unknown-type.invalid</code></td>
+        <td><i>(any)</i></td>
+        <td><code>truncated.invalid</code></td>
         <td>
-          Responds with a record containing a currently-unassigned record type. The record will contain data with the right length.
+          Responds with a DNS packet containing no records, but with the ‘Truncated’ bit set in the header.
         </td>
       </tr>
 
@@ -1119,6 +1119,38 @@ Error [protocol]: Malformed packet: insufficient data</pre>
         <td><code>private-error.invalid</code></td>
         <td>
           Responds with an error status within the “Reserved for Private Use” range.
+        </td>
+      </tr>
+
+
+      <tr class="section"><th colspan="3">Question mismatches</th></tr>
+      <tr class="headings">
+        <th>qtype</th>
+        <th>Domain</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><code class="qtype a">A</code></td>
+        <td><code>domain-mismatch.invalid</code></td>
+        <td>
+          Responds with a DNS packet where the domain in the Question field is different from the one in the request.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype a">A</code></td>
+        <td><code>qclass-mismatch.invalid</code></td>
+        <td>
+          Responds with a DNS packet where the record type in the Question field is different from the one in the request.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype a">A</code></td>
+        <td><code>qtype-mismatch.invalid</code></td>
+        <td>
+          Responds with a DNS packet where the DNS class in the Question field is different from the one in the request.
         </td>
       </tr>
 
