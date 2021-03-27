@@ -1,7 +1,6 @@
-# opt.example
+# do-flag.opt.example
 #
-# Responds with an A record and an OPT additional record, containing a payload
-# size of 1452, empty everything else, and no data.
+# Responds with an A record and an OPT additional record with the DO flag set.
 
 
 # DNS header
@@ -10,7 +9,7 @@ Flags: 81 80
 Counts: be16[1]  be16[1]  be16[0]  be16[1]
 
 # Question
-Domain: 03 "opt" 07 "example" 00
+Domain: 07 "do-flag" 03 "opt" 07 "example" 00
 Type: be16(DNS_A)
 Class: be16(DNS_IN)
 
@@ -29,5 +28,5 @@ Type: be16(DNS_OPT)
 UDP payload size: be16[1452]
 Higher bits: 00
 EDNS0 version: 00
-Flags: 00 00
+Flags: 80 00  # DO flag set, others unset
 Data: 00 00  # no data

@@ -34,7 +34,7 @@
     <p>
       Requests must contain exactly one query, for a domain name ending in <code>.example</code> or <code>.invalid</code>.
       The record type can be any of the allowed types, and results will vary on both the domain and the type.
-      An <code>OPT</code> record in the request will be ignored.
+      An <code>OPT</code> record in the request won’t affect the results.
     </p>
 
     <p>
@@ -611,34 +611,42 @@ Error [protocol]: Malformed packet: insufficient data</pre>
       </tr>
 
       <tr>
-        <td><code class="qtype opt">OPT</code></td>
+        <td><code class="qtype a">A</code></td>
         <td><code>opt.example</code></td>
         <td>
-          Responds with a valid OPT record in the Additional section.
+          Responds with an A record, along with a valid OPT record in the Additional section.
         </td>
       </tr>
 
       <tr>
-        <td><code class="qtype opt">OPT</code></td>
-        <td><code>named.opt.example</code></td>
+        <td><code class="qtype a">A</code></td>
+        <td><code>do-flag.opt.example</code></td>
         <td>
-          Responds with a valid OPT record in the Additional section that has a domain name associated with it.
+          Responds with an A record, along with a valid OPT record in the Additional section that has the DO flag set.
         </td>
       </tr>
 
       <tr>
-        <td><code class="qtype opt">OPT</code></td>
-        <td><code>empty.opt.invalid</code></td>
+        <td><code class="qtype a">A</code></td>
+        <td><code>other-flags.opt.example</code></td>
         <td>
-          Responds with a zero-length OPT record in the Additional section.
+          Responds with an A record, along with a valid OPT record in the Additional section that has all the currently-unspecified flags set.
         </td>
       </tr>
 
       <tr>
-        <td><code class="qtype opt">OPT</code></td>
+        <td><code class="qtype a">A</code></td>
         <td><code>incomplete.opt.invalid</code></td>
         <td>
-          Responds with a record that has some bytes missing.
+          Responds with an OPT record in the Additional section that has some bytes missing.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype a">A</code></td>
+        <td><code>named.opt.invalid</code></td>
+        <td>
+          Responds with a record that has an OPT record under a domain other than the root domain in the Additional section.
         </td>
       </tr>
 

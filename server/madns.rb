@@ -155,6 +155,8 @@ module Madns
         req.qtype = 'special-retry'
       elsif req.qtype == 'cname' && @samples.exist?('special-chars', req.domain)
         req.qtype = 'special-chars'
+      elsif req.qtype == 'a' && @samples.exist?('opt', req.domain)
+        req.qtype = 'opt'
       end
 
       # If the domain is not one of the known ones, return NOTIMP.

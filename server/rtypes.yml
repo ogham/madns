@@ -10,7 +10,6 @@
 29: loc
 33: srv
 35: naptr
-41: opt
 44: sshfp
 52: tlsa
 61: openpgpkey
