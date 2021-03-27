@@ -306,28 +306,28 @@ module Madns
       end.parse!(argv)
 
       if args.proto.nil?
-        $stderr.puts "No protocol given (use --tcp or --udp)"
+        $stderr.puts "#{$0}: No protocol given (use --tcp or --udp)"
         exit 3
       elsif args.bind_addr.nil?
-        $stderr.puts "No bind address given (use --bind)"
+        $stderr.puts "#{$0}: No bind address given (use --bind)"
         exit 3
       elsif args.port.nil?
-        $stderr.puts "No port given (use --port)"
+        $stderr.puts "#{$0}: No port given (use --port)"
         exit 3
       elsif args.samples_dir.nil?
-        $stderr.puts "No samples directory given (use --dir)"
+        $stderr.puts "#{$0}: No samples directory given (use --dir)"
         exit 3
       end
 
       `which hexit`
       if ! $?.success?
-        $stderr.puts "Hexit binary not in $PATH"
+        $stderr.puts "#{$0}: Hexit binary not in $PATH"
         exit 3
       end
 
       args
     rescue OptionParser::ParseError => e
-      $stderr.puts e.message
+      $stderr.puts "#{$0}: #{e.message}"
       exit 3
     end
 
