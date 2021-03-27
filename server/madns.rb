@@ -19,6 +19,7 @@ module Madns
     nxdomain:  0x8183,
     notimp:    0x8184,
     refused:   0x8185,
+    truncated: 0x8200,
   }
 
 
@@ -83,8 +84,16 @@ module Madns
       loop do
         begin
           transport.wait_and_handle_request do |str|
-            txid, req = Request.parse(StringIO.new(str))
-            respond_to_request(txid, req)
+            txid, request = Request.parse(StringIO.new(str))
+            response = respond_to_request(txid, request)
+
+            # In order to prevent amplification attacks through spoofed IP packets,
+            # sending long responses over UDP is forbidden.
+            if transport.is_a?(UdpTransport) && response.length >= 150
+              response = respond_with_flags(txid, FLAGS[:truncated])
+            end
+
+            response
           end
         rescue => e
           puts "ERROR (Internal error: #{e.message})"
@@ -130,6 +139,9 @@ module Madns
       when 'refused.invalid'
         puts "[flags] #{req.domain.inspect}"
         return respond_with_flags(txid, FLAGS[:refused])
+      when 'truncated.invalid'
+        puts "[flags] #{req.domain.inspect}"
+        return respond_with_flags(txid, FLAGS[:truncated])
       when 'txid-mismatch.invalid'
         puts "[special] #{req.domain.inspect}"
         return respond_with_flags((txid + 1) % 2**32, FLAGS[:success])
