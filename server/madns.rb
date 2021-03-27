@@ -317,9 +317,15 @@ module Madns
       elsif args.samples_dir.nil?
         $stderr.puts "No samples directory given (use --dir)"
         exit 3
-      else
-        args
       end
+
+      `which hexit`
+      if ! $?.success?
+        $stderr.puts "Hexit binary not in $PATH"
+        exit 3
+      end
+
+      args
     rescue OptionParser::ParseError => e
       $stderr.puts e.message
       exit 3
