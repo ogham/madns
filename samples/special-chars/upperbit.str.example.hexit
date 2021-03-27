@@ -1,0 +1,25 @@
+# upperbit.str.example
+#
+# Responds with a CNAME record containing a domain name with some characters
+# that have the upper bit set (in the range 127 to 255). Clients should escape
+# these characters, rather than attempting to interpret the string as if it’s
+# in any encoding other than ASCII.
+
+
+# DNS header
+# (minus transaction ID)
+Flags: 81 80
+Counts: be16[1]  be16[1]  be16[0]  be16[0]
+
+# Question
+Domain: 08 "upperbit" 03 "str" 07 "example" 00
+Type: be16(DNS_CNAME)
+Class: be16(DNS_IN)
+
+# Answer
+Domain: c0 0c
+Type: be16(DNS_CNAME)
+Class: be16(DNS_IN)
+TTL: be32[600]
+Length: be16[16]
+CNAME: [6] [127] [128] [129] [130] [131] [255] 07 "example" 00
