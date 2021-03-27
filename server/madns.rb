@@ -130,6 +130,9 @@ module Madns
       when 'refused.invalid'
         puts "[flags] #{req.domain.inspect}"
         return respond_with_flags(txid, FLAGS[:refused])
+      when 'txid-mismatch.invalid'
+        puts "[special] #{req.domain.inspect}"
+        return respond_with_flags((txid + 1) % 2**32, FLAGS[:success])
       end
 
       # Handle special cases that have a response record type of A or CNAME
