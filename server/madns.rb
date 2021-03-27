@@ -132,10 +132,12 @@ module Madns
         return respond_with_flags(txid, FLAGS[:refused])
       end
 
-      # Handle A record cases that aren’t anything to do with A records, but
-      # require A because the response type is hard-coded in them
-      if req.qtype == 'a' && @samples.exist?('special', req.domain)
-        req.qtype = 'special'
+      # Handle special cases that have a response record type of A or CNAME
+      # hard-coded in them.
+      if req.qtype == 'a' && @samples.exist?('special-proto', req.domain)
+        req.qtype = 'special-proto'
+      elsif req.qtype == 'cname' && @samples.exist?('special-chars', req.domain)
+        req.qtype = 'special-chars'
       end
 
       # If the domain is not one of the known ones, return NOTIMP.

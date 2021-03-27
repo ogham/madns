@@ -1,0 +1,23 @@
+# tab.str.example
+#
+# Responds with a CNAME record containing a domain name with some tab
+# characters in it. These characters should be escaped by the client.
+
+
+# DNS header
+# (minus transaction ID)
+Flags: 81 80
+Counts: be16[1]  be16[1]  be16[0]  be16[0]
+
+# Question
+Domain: 03 "tab" 03 "str" 07 "example" 00
+Type: be16(DNS_CNAME)
+Class: be16(DNS_IN)
+
+# Answer
+Domain: c0 0c
+Type: be16(DNS_CNAME)
+Class: be16(DNS_IN)
+TTL: be32[600]
+Length: be16[26]
+CNAME: [16] "some" 09 "tab" 09 09 "chars" 09 07 "example" 00
