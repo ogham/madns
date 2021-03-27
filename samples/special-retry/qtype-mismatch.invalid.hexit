@@ -1,0 +1,23 @@
+# qtype-mismatch.invalid
+#
+# Responds with a valid A record, but the question section contains a
+# different record type than the one that was asked for.
+
+
+# DNS header
+# (minus transaction ID)
+Flags: 81 80
+Counts: be16[1]  be16[1]  be16[0]  be16[0]
+
+# Question
+Domain: 0e "qtype-mismatch" 07 "invalid" 00
+Type: be16(DNS_MX)  # mismatch
+Class: be16(DNS_IN)
+
+# Answer
+Domain: c0 0c
+Type: be16(DNS_A)
+Class: be16(DNS_IN)
+TTL: be32[600]
+Length: be16[4]
+IP: [127.0.0.1]

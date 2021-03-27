@@ -136,6 +136,8 @@ module Madns
       # hard-coded in them.
       if req.qtype == 'a' && @samples.exist?('special-proto', req.domain)
         req.qtype = 'special-proto'
+      elsif req.qtype == 'a' && @samples.exist?('special-retry', req.domain)
+        req.qtype = 'special-retry'
       elsif req.qtype == 'cname' && @samples.exist?('special-chars', req.domain)
         req.qtype = 'special-chars'
       end

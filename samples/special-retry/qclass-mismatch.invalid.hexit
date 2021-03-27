@@ -1,0 +1,23 @@
+# qclass-mismatch.invalid
+#
+# Responds with a valid A record, but the question section contains a
+# different record clas than the one that was asked for.
+
+
+# DNS header
+# (minus transaction ID)
+Flags: 81 80
+Counts: be16[1]  be16[1]  be16[0]  be16[0]
+
+# Question
+Domain: 0f "qclass-mismatch" 07 "invalid" 00
+Type: be16(DNS_A)
+Class: be16(DNS_CH)  # mismatch
+
+# Answer
+Domain: c0 0c
+Type: be16(DNS_A)
+Class: be16(DNS_IN)
+TTL: be32[600]
+Length: be16[4]
+IP: [127.0.0.1]
