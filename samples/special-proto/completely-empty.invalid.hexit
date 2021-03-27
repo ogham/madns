@@ -1,0 +1,9 @@
+# completely-empty.invalid
+#
+# Responds with no records at all, not even a question.
+
+
+# DNS header
+# (minus transaction ID)
+Flags: 81 80
+Counts: be16[0]  be16[0]  be16[0]  be16[0]

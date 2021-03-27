@@ -1,0 +1,15 @@
+# missing-answers.invalid
+#
+# Responds with the question reflected, but with no answers.
+
+
+# DNS header
+# (minus transaction ID)
+Flags: 81 80
+Counts: be16[1]  be16[0]  be16[0]  be16[0]
+
+
+# Question
+Domain: 0f "missing-answers" 07 "invalid" 00
+Type: be16(DNS_A)
+Class: be16(DNS_IN)

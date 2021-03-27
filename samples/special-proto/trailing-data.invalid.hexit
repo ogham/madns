@@ -1,0 +1,14 @@
+# trailing-data.invalid
+#
+# Responds with no records at all, followed by some extra bytes that don’t
+# mean anything.
+
+
+# DNS header
+# (minus transaction ID)
+Flags: 81 80
+Counts: be16[0]  be16[0]  be16[0]  be16[0]
+
+[1]
+[2]
+[1] [2] [3] [4]
