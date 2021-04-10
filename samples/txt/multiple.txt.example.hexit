@@ -1,0 +1,24 @@
+# multiple.txt.example
+#
+# Responds with a valid TXT record, containing enough bytes of text that the
+# message is split into multiple segments.
+
+
+# DNS header
+# (minus transaction ID)
+Flags: 81 80
+Counts: be16[1]  be16[1]  be16[0]  be16[0]
+
+# Question
+Domain: 08 "multiple" 03 "txt" 07 "example" 00
+Type: be16(DNS_TXT)
+Class: be16(DNS_IN)
+
+# Answer
+Domain: c0 0c
+Type: be16(DNS_TXT)
+Class: be16(DNS_IN)
+TTL: be32[600]
+Length: be16[484]
+Text: [255] "I'd just like to interject for a moment. What you're referring to as Linux, is in fact, GNU/Linux, or as I've recently taken to calling it, GNU plus Linux. Linux is not an operating system unto itself, but rather another free component of a fully function"
+[227] "ing GNU system made useful by the GNU corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX. Many computer users run a modified version of the GNU system every day, without realizing it."

@@ -1,0 +1,24 @@
+# utf8.txt.example
+#
+# Responds with a valid TXT record, containing some text that has UTF-8
+# characters in it. Clients should escape these characters, rather than trying
+# to interpret them as part of a multi-byte character encoding.
+
+
+# DNS header
+# (minus transaction ID)
+Flags: 81 80
+Counts: be16[1]  be16[1]  be16[0]  be16[0]
+
+# Question
+Domain: 04 "utf8" 03 "txt" 07 "example" 00
+Type: be16(DNS_TXT)
+Class: be16(DNS_IN)
+
+# Answer
+Domain: c0 0c
+Type: be16(DNS_TXT)
+Class: be16(DNS_IN)
+TTL: be32[600]
+Length: be16[62]
+Text: [61] "💰Cache 🙅‍️Invalidation ⅋and 📛Naming 🎳Things"

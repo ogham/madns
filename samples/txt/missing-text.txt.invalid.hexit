@@ -1,0 +1,22 @@
+# missing-text.txt.invalid
+#
+# Responds with a TXT record containing one empty string.
+
+
+# DNS header
+# (minus transaction ID)
+Flags: 81 80
+Counts: be16[1]  be16[1]  be16[0]  be16[0]
+
+# Question
+Domain: 0c "missing-text" 03 "txt" 07 "invalid" 00
+Type: be16(DNS_TXT)
+Class: be16(DNS_IN)
+
+# Answer
+Domain: c0 0c
+Type: be16(DNS_TXT)
+Class: be16(DNS_IN)
+TTL: be32[600]
+Length: be16[1]
+Text: [0]

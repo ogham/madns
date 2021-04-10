@@ -828,14 +828,6 @@ Error [protocol]: Malformed packet: insufficient data</pre>
 
       <tr>
         <td><code class="qtype ptr">TXT</code></td>
-        <td><code>multiple.txt.example</code></td>
-        <td>
-          Responds with a valid TXT record containing two strings of text.
-        </td>
-      </tr>
-
-      <tr>
-        <td><code class="qtype ptr">TXT</code></td>
         <td><code>utf8.txt.example</code></td>
         <td>
           Responds with a valid TXT record containing some UTF-8 text.
@@ -847,6 +839,16 @@ Error [protocol]: Malformed packet: insufficient data</pre>
         <td><code>limit.txt.example</code></td>
         <td>
           Responds with a valid TXT record containing exactly 255 bytes of text.
+          <i>Only available over TCP.</i>
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype ptr">TXT</code></td>
+        <td><code>multiple.txt.example</code></td>
+        <td>
+          Responds with a valid TXT record containing two internal strings of text.
+          <i>Only available over TCP.</i>
         </td>
       </tr>
 
@@ -854,7 +856,15 @@ Error [protocol]: Malformed packet: insufficient data</pre>
         <td><code class="qtype txt">TXT</code></td>
         <td><code>missing-data.txt.invalid</code></td>
         <td>
-          Responds with a record containing zero bytes of text.
+          Responds with a record containing zero bytes of text, as zero internal strings.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code class="qtype txt">TXT</code></td>
+        <td><code>missing-text.txt.invalid</code></td>
+        <td>
+          Responds with a record containing zero bytes of text, as one internal string that contains zero bytes.
         </td>
       </tr>
 
