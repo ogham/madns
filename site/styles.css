@@ -51,7 +51,7 @@ table {
 }
 
 th + th, td + td {
-    padding-left: 1rem;
+    padding-left: 0.4rem;
 }
 
 td:first-child, tr:not(.section) > th:first-child {
