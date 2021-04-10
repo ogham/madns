@@ -1206,6 +1206,20 @@ Error [protocol]: Malformed packet: insufficient data</pre>
     </p>
 
 
+    <h2>Why the UTF-8 records? Doesn’t DNS specify ASCII?</h2>
+
+    <p>
+      That’s correct — DNS specifies that data within records should use ASCII, and interpreting their contents as UTF-8 is the wrong thing to do.
+      For example, the contents of a TXT record should be treated as ASCII, and any bytes with the upper bit set should be escaped and displayed as bytes, <em>not</em> as UTF-8 characters.
+    </p>
+
+    <p>
+      However, now that UTF-8 has become the One True Standard for text encoding (and rightfully so), it’s easy for clients to treat any text UTF-8, and do this by accident.
+      There is nothing stopping DNS servers from returning record data containing bytes with the upper bit set, even if it does violate the specification, and this needs to be handled by clients <em>somehow</em>.
+      The <code>utf8.*</code> and <code>bad-utf.*</code> records are present so that clients can make sure they do not attempt to do this; or worse, that they do not crash when presented with invalid UTF-8 bytes.
+    </p>
+
+
     <h2>Support</h2>
 
     <p>
