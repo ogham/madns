@@ -55,6 +55,11 @@ th + th, td + td {
 }
 
 td:first-child, tr:not(.section) > th:first-child {
+    text-align: right;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
     text-align: center;
 }
 
