@@ -1,0 +1,25 @@
+# utf8.hinfo.example
+#
+# Responds with a valid HINFO record, containing UTF-8 in the CPU and OS
+# fields. These fields should be interpreted as bytes and escaped by the
+# client, rather than interpreted as UTF-8.
+
+
+# DNS header
+# (minus transaction ID)
+Flags: 81 80
+Counts: be16[1]  be16[1]  be16[0]  be16[0]
+
+# Question
+Domain: 04 "utf8" 05 "hinfo" 07 "example" 00
+Type: be16(DNS_HINFO)
+Class: be16(DNS_IN)
+
+# Answer
+Domain: c0 0c
+Type: be16(DNS_HINFO)
+Class: be16(DNS_IN)
+TTL: be32[600]
+Length: be16[41]
+CPU: [20] "some" f0 9f 8c b4 "kinda" f0 9f 8c b4 "cpu"
+OS: [19] "some" f0 9f 8c b4 "kinda" f0 9f 8c b4 "os"

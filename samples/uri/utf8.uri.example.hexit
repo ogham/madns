@@ -1,0 +1,26 @@
+# utf8.uri.example
+#
+# Responds with a valid URI record, containing UTF-8 in the URI field. This
+# field should be interpreted as bytes and escaped by the client, rather than
+# interpreted as UTF-8.
+
+
+# DNS header
+# (minus transaction ID)
+Flags: 81 80
+Counts: be16[1]  be16[1]  be16[0]  be16[0]
+
+# Question
+Domain: 04 "utf8" 03 "uri" 07 "example" 00
+Type: be16(DNS_URI)
+Class: be16(DNS_IN)
+
+# Answer
+Domain: c0 0c
+Type: be16(DNS_URI)
+Class: be16(DNS_IN)
+TTL: be32[600]
+Length: be16[20]
+Priority: be16[10]
+Weight: be16[16]
+URI: "https://💩.la/"

@@ -1,0 +1,26 @@
+# bad-utf8.caa.example
+#
+# Responds with a valid CAA record, containing invalid UTF-8 in the value.
+# This field should be interpreted as bytes and escaped by the client,
+# rather than interpreted as UTF-8.
+
+
+# DNS header
+# (minus transaction ID)
+Flags: 81 80
+Counts: be16[1]  be16[1]  be16[0]  be16[0]
+
+# Question
+Domain: 08 "bad-utf8" 03 "caa" 07 "example" 00
+Type: be16(DNS_CAA)
+Class: be16(DNS_IN)
+
+# Answer
+Domain: c0 0c
+Type: be16(DNS_CAA)
+Class: be16(DNS_IN)
+TTL: be32[600]
+Length: be16[15]
+Flags: 00  # all unset
+Tag: 09 "issuewild"
+Value: d0 d0 a0 ff

@@ -1,0 +1,30 @@
+# bad-utf8.soa.example
+#
+# Responds with a valid SOA record, containing invalid UTF-8 in the MNAME and
+# RNAME fields. These fields should be interpreted as bytes and escaped by the
+# client, rather than interpreted as UTF-8.
+
+
+# DNS header
+# (minus transaction ID)
+Flags: 81 80
+Counts: be16[1]  be16[1]  be16[0]  be16[0]
+
+# Question
+Domain: 08 "bad-utf8" 03 "soa" 07 "example" 00
+Type: be16(DNS_SOA)
+Class: be16(DNS_IN)
+
+# Answer
+Domain: c0 0c
+Type: be16(DNS_SOA)
+Class: be16(DNS_IN)
+TTL: be32[600]
+Length: be16[32]
+MNAME: [4] d0 d0 a0 ff [0]
+RNAME: [4] d0 d0 a0 ff [0]
+Serial: be32[1564274434]
+Refresh interval: be32[86400]
+Retry interval: be32[7200]
+Expire limit: be32[604800]
+Minimum TTL: be32[300]
