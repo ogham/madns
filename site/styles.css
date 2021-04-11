@@ -63,7 +63,7 @@ td:nth-child(2) {
     text-align: center;
 }
 
-td:first-child i {
+td:nth-child(2) i {
     color: #999;
 }
 
@@ -95,6 +95,15 @@ tr.headings > th {
 
 td:last-child {
     font-size: smaller;
+}
+
+td a {
+    text-decoration: none;
+    color: #333;
+}
+
+td a:hover {
+    text-decoration: underline;
 }
 
 code.qtype {
