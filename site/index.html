@@ -218,6 +218,22 @@ Error [protocol]: Malformed packet: insufficient data</pre>
         </td>
       </tr>
 
+      <tr>
+        <td><code>utf8.caa.example</code></td>
+        <td><code class="qtype caa">CAA</code></td>
+        <td>
+          Responds with a record containing some bytes that happen to be valid UTF-8.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>bad-utf8.caa.example</code></td>
+        <td><code class="qtype caa">CAA</code></td>
+        <td>
+          Responds with a record containing invalid UTF-8 bytes.
+        </td>
+      </tr>
+
 
       <tr class="section"><th colspan="3">Sample CNAME records <small>(qtype 5)</small></th></tr>
       <tr class="headings">
@@ -247,6 +263,22 @@ Error [protocol]: Malformed packet: insufficient data</pre>
         <td><code class="qtype cname">CNAME</code></td>
         <td>
           Responds with a record that has some bytes missing.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>utf8.cname.example</code></td>
+        <td><code class="qtype cname">CNAME</code></td>
+        <td>
+          Responds with a record containing some bytes that happen to be valid UTF-8.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>bad-utf8.cname.example</code></td>
+        <td><code class="qtype cname">CNAME</code></td>
+        <td>
+          Responds with a record containing invalid UTF-8 bytes.
         </td>
       </tr>
 
@@ -378,6 +410,22 @@ Error [protocol]: Malformed packet: insufficient data</pre>
         </td>
       </tr>
 
+      <tr>
+        <td><code>utf8.hinfo.example</code></td>
+        <td><code class="qtype hinfo">HINFO</code></td>
+        <td>
+          Responds with a record containing some bytes that happen to be valid UTF-8.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>bad-utf8.hinfo.example</code></td>
+        <td><code class="qtype hinfo">HINFO</code></td>
+        <td>
+          Responds with a record containing invalid UTF-8 bytes.
+        </td>
+      </tr>
+
 
       <tr class="section"><th colspan="3">Sample LOC records <small>(qtype 29)</small></th></tr>
       <tr class="headings">
@@ -498,6 +546,22 @@ Error [protocol]: Malformed packet: insufficient data</pre>
         </td>
       </tr>
 
+      <tr>
+        <td><code>utf8.mx.example</code></td>
+        <td><code class="qtype mx">MX</code></td>
+        <td>
+          Responds with a record containing some bytes that happen to be valid UTF-8.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>bad-utf8.mx.example</code></td>
+        <td><code class="qtype mx">MX</code></td>
+        <td>
+          Responds with a record containing invalid UTF-8 bytes.
+        </td>
+      </tr>
+
 
       <tr class="section"><th colspan="3">Sample NAPTR records <small>(qtype 35)</small></th></tr>
       <tr class="headings">
@@ -538,6 +602,22 @@ Error [protocol]: Malformed packet: insufficient data</pre>
         </td>
       </tr>
 
+      <tr>
+        <td><code>utf8.naptr.invalid</code></td>
+        <td><code class="qtype naptr">NAPTR</code></td>
+        <td>
+          Responds with a record containing some bytes that happen to be valid UTF-8.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>bad-utf8.naptr.invalid</code></td>
+        <td><code class="qtype naptr">NAPTR</code></td>
+        <td>
+          Responds with a record containing invalid UTF-8 bytes.
+        </td>
+      </tr>
+
 
       <tr class="section"><th colspan="3">Sample NS records <small>(qtype 2)</small></th></tr>
       <tr class="headings">
@@ -567,6 +647,22 @@ Error [protocol]: Malformed packet: insufficient data</pre>
         <td><code class="qtype ns">NS</code></td>
         <td>
           Responds with a record that has some bytes missing.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>utf8.ns.example</code></td>
+        <td><code class="qtype ns">NS</code></td>
+        <td>
+          Responds with a record containing some bytes that happen to be valid UTF-8.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>bad-utf8.ns.example</code></td>
+        <td><code class="qtype ns">NS</code></td>
+        <td>
+          Responds with a record containing invalid UTF-8 bytes.
         </td>
       </tr>
 
@@ -682,6 +778,22 @@ Error [protocol]: Malformed packet: insufficient data</pre>
         </td>
       </tr>
 
+      <tr>
+        <td><code>utf8.ptr.example</code></td>
+        <td><code class="qtype ptr">PTR</code></td>
+        <td>
+          Responds with a record containing some bytes that happen to be valid UTF-8.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>bad-utf8.ptr.example</code></td>
+        <td><code class="qtype ptr">PTR</code></td>
+        <td>
+          Responds with a record containing invalid UTF-8 bytes.
+        </td>
+      </tr>
+
 
       <tr class="section"><th colspan="3">Sample SOA records <small>(qtype 6)</small></th></tr>
       <tr class="headings">
@@ -714,6 +826,22 @@ Error [protocol]: Malformed packet: insufficient data</pre>
         </td>
       </tr>
 
+      <tr>
+        <td><code>utf8.soa.example</code></td>
+        <td><code class="qtype soa">SOA</code></td>
+        <td>
+          Responds with a record containing some bytes that happen to be valid UTF-8.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>bad-utf8.soa.example</code></td>
+        <td><code class="qtype soa">SOA</code></td>
+        <td>
+          Responds with a record containing invalid UTF-8 bytes.
+        </td>
+      </tr>
+
 
       <tr class="section"><th colspan="3">Sample SRV records <small>(qtype 33)</small></th></tr>
       <tr class="headings">
@@ -743,6 +871,22 @@ Error [protocol]: Malformed packet: insufficient data</pre>
         <td><code class="qtype srv">SRV</code></td>
         <td>
           Responds with a record that has some bytes missing.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>utf8.srv.example</code></td>
+        <td><code class="qtype srv">SRV</code></td>
+        <td>
+          Responds with a record containing some bytes that happen to be valid UTF-8.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>bad-utf8.srv.example</code></td>
+        <td><code class="qtype srv">SRV</code></td>
+        <td>
+          Responds with a record containing invalid UTF-8 bytes.
         </td>
       </tr>
 
@@ -820,7 +964,7 @@ Error [protocol]: Malformed packet: insufficient data</pre>
 
       <tr>
         <td><code>txt.example</code></td>
-        <td><code class="qtype ptr">TXT</code></td>
+        <td><code class="qtype txt">TXT</code></td>
         <td>
           Responds with a valid TXT record containing one string of text.
         </td>
@@ -828,15 +972,23 @@ Error [protocol]: Malformed packet: insufficient data</pre>
 
       <tr>
         <td><code>utf8.txt.example</code></td>
-        <td><code class="qtype ptr">TXT</code></td>
+        <td><code class="qtype txt">TXT</code></td>
         <td>
           Responds with a valid TXT record containing some UTF-8 text.
         </td>
       </tr>
 
       <tr>
+        <td><code>bad-utf8.txt.example</code></td>
+        <td><code class="qtype txt">TXT</code></td>
+        <td>
+          Responds with a valid TXT record containing some invalid UTF-8.
+        </td>
+      </tr>
+
+      <tr>
         <td><code>limit.txt.example</code></td>
-        <td><code class="qtype ptr">TXT</code></td>
+        <td><code class="qtype txt">TXT</code></td>
         <td>
           Responds with a valid TXT record containing exactly 255 bytes of text.
           <i>Only available over TCP.</i>
@@ -845,7 +997,7 @@ Error [protocol]: Malformed packet: insufficient data</pre>
 
       <tr>
         <td><code>multiple.txt.example</code></td>
-        <td><code class="qtype ptr">TXT</code></td>
+        <td><code class="qtype txt">TXT</code></td>
         <td>
           Responds with a valid TXT record containing two internal strings of text.
           <i>Only available over TCP.</i>
@@ -929,6 +1081,22 @@ Error [protocol]: Malformed packet: insufficient data</pre>
         <td><code class="qtype uri">URI</code></td>
         <td>
           Responds with a record that has some bytes missing.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>utf8.uri.example</code></td>
+        <td><code class="qtype uri">URI</code></td>
+        <td>
+          Responds with a record containing some bytes that happen to be valid UTF-8.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>bad-utf8.uri.example</code></td>
+        <td><code class="qtype uri">URI</code></td>
+        <td>
+          Responds with a record containing invalid UTF-8 bytes.
         </td>
       </tr>
 
