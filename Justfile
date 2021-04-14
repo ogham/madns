@@ -10,7 +10,7 @@
 @syntax-check:
     #!/bin/sh
     for h in samples/*/*.hexit; do
-        hexit -c $h
+        hexit -c $h || exit 1
     done
 
 # See how dig fares when trying to parse every response. Requires a running server.

@@ -21,6 +21,6 @@ Type: be16(DNS_CAA)
 Class: be16(DNS_IN)
 TTL: be32[600]
 Length: be16[30]
-Flags: 7f  # all but critical bit unset
+Flags: [b0111_1111]  # all but critical bit unset
 Tag: 09 "issuewild"
 Value: "trustworthy.example"

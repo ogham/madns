@@ -20,6 +20,6 @@ Type: be16(DNS_CAA)
 Class: be16(DNS_IN)
 TTL: be32[600]
 Length: be16[30]
-Flags: 80  # critical bit set
+Flags: [b1000_0000]  # critical bit set
 Tag: 09 "issuewild"
 Value: "trustworthy.example"
