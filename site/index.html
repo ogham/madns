@@ -57,17 +57,17 @@
     </p>
 
     <p>
-      If you just want to try something quickly, you can test dog’s error handling by resolving one of the domains in the table below. Here’s one that’s valid:
+      If you just want to try something quickly, you can test dog’s error handling by resolving one of the domains in the table below. Here’s one that’s valid, the domain <code>txt.example</code>, which contains a string:
     </p>
 
-    <pre>$ dog @madns.binarystar.systems:5301 TXT txt.example
+    <pre role="doc-example"><b>$ dog @madns.binarystar.systems:5301 TXT txt.example</b>
 TXT txt.example. 10m00s   "Cache Invalidation and Naming Things"</pre>
 
     <p>
-      And here’s one that’s invalid:
+      And here’s one that’s invalid, <code>empty.txt.invalid</code>, which should result in an error:
     </p>
 
-    <pre>$ dog @madns.binarystar.systems:5301 TXT empty.txt.invalid
+    <pre role="doc-example"><b>$ dog @madns.binarystar.systems:5301 TXT empty.txt.invalid</b>
 Error [protocol]: Malformed packet: insufficient data</pre>
 
 

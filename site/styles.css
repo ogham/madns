@@ -1,3 +1,5 @@
+/* layout and content */
+
 html {
     font-family: sans-serif;
     color: #333;
@@ -21,6 +23,31 @@ h1 {
     font-size: 14pt;
 }
 
+pre, code {
+    font-family: Menlo, monospace;
+}
+
+pre {
+    color: #455CA9;
+    padding-left: 1rem;
+}
+
+code {
+    white-space: nowrap;
+}
+
+li + li {
+    margin-top: 1rem;
+}
+
+p a {
+    color: #2c578c;
+    text-decoration-color: #77a6df;
+}
+
+
+/* section headings */
+
 h2 {
     margin-top: 2rem;
 
@@ -39,22 +66,8 @@ h2:hover a {
     visibility: inherit;
 }
 
-pre, code {
-    font-family: Menlo, monospace;
-}
 
-pre {
-    color: #666;
-    padding-left: 1rem;
-}
-
-code {
-    white-space: nowrap;
-}
-
-li + li {
-    margin-top: 1rem;
-}
+/* the table */
 
 table {
     width: 100%;
