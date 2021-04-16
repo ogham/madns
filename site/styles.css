@@ -28,6 +28,17 @@ h2 {
     line-height: 1.2;
 }
 
+h2 a {
+    visibility: hidden;
+    font-weight: normal;
+    color: #999 !important;
+    text-decoration: none;
+}
+
+h2:hover a {
+    visibility: inherit;
+}
+
 pre, code {
     font-family: Menlo, monospace;
 }
@@ -84,6 +95,17 @@ tr.section > th {
 
 tr.section:not(:first-child) {
     height: 3rem;
+}
+
+tr.section a {
+    visibility: hidden;
+    color: #999;
+    text-decoration: none;
+    font-weight: normal;
+}
+
+tr.section:hover a {
+    visibility: inherit;
 }
 
 tr.headings > th {
