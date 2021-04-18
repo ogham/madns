@@ -1,0 +1,17 @@
+# max-counts.invalid
+#
+# Responds with the four count fields (questions, answers, authorities,
+# additionals) all set to the maximum value allowed by the DNS packet
+# structure (2^16 - 1). These counts are provided by the user, so we don’t
+# actually have to include all those structures in the packet, and DNS clients
+# should not naïvely pre-allocate buffers to hold all those values, which
+# could use up a lot of memory.
+
+
+# DNS header
+# (minus transaction ID)
+Flags: 81 80
+Counts: be16[65535]  be16[65535]  be16[65535]  be16[65535]
+
+
+# (Don’t actually return any data.)

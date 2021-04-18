@@ -1242,7 +1242,7 @@ Error [protocol]: Malformed packet: insufficient data</pre>
 
       <tr>
         <td><a title="View the Hexit source for this record" href="https://github.com/ogham/madns/blob/master/samples/special-proto/completely-empty.invalid.hexit"><code>completely-empty.invalid</code></a></td>
-        <td><i>(any)</i></td>
+        <td><code class="qtype a">A</code></td>
         <td>
           Responds with a DNS packet containing no records.
         </td>
@@ -1253,6 +1253,14 @@ Error [protocol]: Malformed packet: insufficient data</pre>
         <td><code class="qtype a">A</code></td>
         <td>
           Responds with a DNS packet containing the original question, but no answers.
+        </td>
+      </tr>
+
+      <tr>
+        <td><a title="View the Hexit source for this record" href="https://github.com/ogham/madns/blob/master/samples/special-proto/max-counts.invalid.hexit"><code>max-counts.invalid</code></a></td>
+        <td><code class="qtype a">A</code></td>
+        <td>
+          Responds with a DNS packet specifying the maximum possible count of records (2<sup>16</sup> - 1), but no actual data.
         </td>
       </tr>
 
