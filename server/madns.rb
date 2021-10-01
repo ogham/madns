@@ -192,10 +192,16 @@ module Madns
 
   # A transport that sends and receives data over UDP.
   class UdpTransport
-    def initialize(bind_addr, port)
+    def initialize(bind_addr, port, address_family)
       puts "Listening on UDP port #{port}, binding to #{bind_addr}"
 
-      @socket = UDPSocket.new
+      if address_family.nil?
+        @socket = UDPSocket.new
+      else
+        # <https://bugs.ruby-lang.org/issues/5525>
+        @socket = UDPSocket.new(address_family)
+      end
+
       @socket.bind(bind_addr, port)
     end
 
@@ -266,12 +272,13 @@ module Madns
   class Options
     def initialize
       @bind_addr = nil
+      @addr_family = nil
       @port = nil
       @proto = nil
       @samples_dir = nil
     end
 
-    attr_accessor :bind_addr, :port, :proto, :samples_dir
+    attr_accessor :bind_addr, :addr_family, :port, :proto, :samples_dir
 
     # Parse the input arguments into an Options object, printing an error
     # message and exiting if there’s a problem with the user’s input.
@@ -295,6 +302,14 @@ module Madns
 
         opts.on("--udp", "Serve over UDP") do ||
           args.proto = :udp
+        end
+
+        opts.on("-4", "Specify IPv4 as address family (with UDP)") do ||
+          args.addr_family = Socket::AF_INET
+        end
+
+        opts.on("-6", "Specify IPv6 as address family (with UDP)") do ||
+          args.addr_family = Socket::AF_INET6
         end
 
         opts.on("-dDIR", "--dir=DIR", "Path to the samples directory") do |n|
@@ -340,7 +355,7 @@ module Madns
       when :tcp
         TcpTransport.new(@bind_addr, @port)
       when :udp
-        UdpTransport.new(@bind_addr, @port)
+        UdpTransport.new(@bind_addr, @port, @ipv6)
       end
     end
 

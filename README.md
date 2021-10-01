@@ -14,6 +14,8 @@ Options
   -p, --port=PORT     Port to serve on
       --tcp           Serve over TCP
       --udp           Serve over UDP
+  -4                  Serve using IPv4 (with UDP)
+  -6                  Serve using IPv6 (with UDP)
   -d, --dir=DIR       Path to the samples directory
   -h, --help          Prints this help
 ```
