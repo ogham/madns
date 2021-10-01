@@ -146,3 +146,47 @@ code.qtype {
     border-radius: 9999px;
     padding: 2px 5px;
 }
+
+
+/* dark mode */
+
+@media (prefers-color-scheme: dark) {
+    html {
+        background-color: #222;
+        color: #eee;
+    }
+
+    h1, h2 {
+        color: #f5f5f5;
+    }
+
+    h2 a {
+        color: #777 !important;
+    }
+
+    p a {
+        color: #76D6FF;
+        text-decoration-color: #22A6FF;
+    }
+
+    pre {
+        color: #22A6FF;
+    }
+
+    tr.section > th {
+        border-bottom-color: #555;
+        color: #f5f5f5;
+    }
+
+    tr.headings > th {
+        color: #aaa;
+    }
+
+    td a {
+        color: #eee;
+    }
+
+    code.qtype {
+        background-color: #0a0a0a;
+    }
+}
