@@ -759,7 +759,39 @@ Error [protocol]: Malformed packet: insufficient data</pre>
         <td><a title="View the Hexit source for this record" href="https://github.com/ogham/madns/blob/master/samples/opt/named.opt.invalid.hexit"><code>named.opt.invalid</code></a></td>
         <td><code class="qtype a">A</code></td>
         <td>
-          Responds with a record that has an OPT record under a domain other than the root domain in the Additional section.
+          Responds with an OPT record in the Additional section, under a domain other than the root domain.
+        </td>
+      </tr>
+
+      <tr>
+        <td><a title="View the Hexit source for this record" href="https://github.com/ogham/madns/blob/master/samples/opt/unassigned-error.opt.example.hexit"><code>unassigned-error.opt.example</code></a></td>
+        <td><code class="qtype a">A</code></td>
+        <td>
+          Responds with an OPT record in the Additional section for a complete error RCODE of 1500, which is (currently) in the “Unassigned” range.
+        </td>
+      </tr>
+
+      <tr>
+        <td><a title="View the Hexit source for this record" href="https://github.com/ogham/madns/blob/master/samples/opt/unassigned-error-2.opt.example.hexit"><code>unassigned-error-2.opt.example</code></a></td>
+        <td><code class="qtype a">A</code></td>
+        <td>
+          Responds with an OPT record in the Additional section for a complete error RCODE of 2000, which is (currently) in the “Unassigned” range.
+        </td>
+      </tr>
+
+      <tr>
+        <td><a title="View the Hexit source for this record" href="https://github.com/ogham/madns/blob/master/samples/opt/reserved-error.opt.example.hexit"><code>reserved-error.opt.example</code></a></td>
+        <td><code class="qtype a">A</code></td>
+        <td>
+          Responds with an OPT record in the Additional section for a complete error RCODE of 3900, which is in the “Reserved for Private Use” range.
+        </td>
+      </tr>
+
+      <tr>
+        <td><a title="View the Hexit source for this record" href="https://github.com/ogham/madns/blob/master/samples/opt/reserved-error-2.opt.example.hexit"><code>reserved-error-2.opt.example</code></a></td>
+        <td><code class="qtype a">A</code></td>
+        <td>
+          Responds with an OPT record in the Additional section for a complete error RCODE of 4000, which is in the “Reserved for Private Use” range.
         </td>
       </tr>
 
@@ -1318,22 +1350,6 @@ Error [protocol]: Malformed packet: insufficient data</pre>
         <td><i>(any)</i></td>
         <td>
           Responds with the <code>Refused</code> error status and no records. This usually happens when the server refuses to answer the query for whatever reason.
-        </td>
-      </tr>
-
-      <tr>
-        <td><code>other-error.invalid</code></td>
-        <td><i>(any)</i></td>
-        <td>
-          Responds with an error status with no currently-defined meaning.
-        </td>
-      </tr>
-
-      <tr>
-        <td><code>private-error.invalid</code></td>
-        <td><i>(any)</i></td>
-        <td>
-          Responds with an error status within the “Reserved for Private Use” range.
         </td>
       </tr>
 

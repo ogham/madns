@@ -1,0 +1,27 @@
+# unassigned-error.opt.example
+#
+# Responds with an OPT additional record containing higher error bits that
+# (combined with the four bits in the Flags field of the header) results in an
+# error RCODE of 1500, which is (currently) in the “Unassigned” range of
+# RCODEs.
+
+
+# DNS header
+# (minus transaction ID)
+Flags: 81 8C  # different!
+Counts: be16[1]  be16[0]  be16[0]  be16[1]
+
+# Question
+Domain: 10 "unassigned-error" 03 "opt" 07 "example" 00
+Type: be16(DNS_A)
+Class: be16(DNS_IN)
+
+# Additional
+Domain: 00  # root
+Type: be16(DNS_OPT)
+# Class and TTL are repurposed for OPT records
+UDP payload size: be16[1452]
+Higher bits: [b0101_1101]
+EDNS0 version: 00
+Flags: be16[b0000_0000_0000_0000]
+Data: 00 00  # no data
