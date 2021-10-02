@@ -85,12 +85,12 @@ module Madns
         begin
           transport.wait_and_handle_request do |str|
             txid, request = Request.parse(StringIO.new(str))
-            response = respond_to_request(txid, request)
+            response = response_for_request(txid, request)
 
             # In order to prevent amplification attacks through spoofed IP packets,
             # sending long responses over UDP is forbidden.
             if transport.is_a?(UdpTransport) && response.length >= 150
-              response = respond_with_flags(txid, FLAGS[:truncated])
+              response = response_with_flags(txid, FLAGS[:truncated])
             end
 
             response
@@ -106,13 +106,13 @@ module Madns
 
     # Constructs a DNS response as a string of bytes, given a parsed request’s
     # transaction ID, type, and domain.
-    def respond_to_request(txid, req)
+    def response_for_request(txid, req)
 
       # If there was an error parsing the request (even though we do as little
       # parsing as possible) return REFUSED.
       if req.nil?
         puts "ERROR (could not decode request packet)"
-        return respond_with_flags(txid, FLAGS[:refused])
+        return response_with_flags(txid, FLAGS[:refused])
       end
 
       # Handle special cases for responses that don’t use Hexit, or respond
@@ -120,31 +120,31 @@ module Madns
       case req.domain
       when 'random-data.invalid'
         puts "[random] #{req.domain.inspect}"
-        return respond_with_data(txid, Random.new.bytes(988))
+        return response_with_data(txid, random_response)
       when 'no-records.invalid'
         puts "[flags] #{req.domain.inspect}"
-        return respond_with_flags(txid, FLAGS[:success])
+        return response_with_flags(txid, FLAGS[:success])
       when 'formerr.invalid'
         puts "[flags] #{req.domain.inspect}"
-        return respond_with_flags(txid, FLAGS[:formerr])
+        return response_with_flags(txid, FLAGS[:formerr])
       when 'servfail.invalid'
         puts "[flags] #{req.domain.inspect}"
-        return respond_with_flags(txid, FLAGS[:servfail])
+        return response_with_flags(txid, FLAGS[:servfail])
       when 'nxdomain.invalid'
         puts "[flags] #{req.domain.inspect}"
-        return respond_with_flags(txid, FLAGS[:nxdomain])
+        return response_with_flags(txid, FLAGS[:nxdomain])
       when 'notimp.invalid'
         puts "[flags] #{req.domain.inspect}"
-        return respond_with_flags(txid, FLAGS[:notimp])
+        return response_with_flags(txid, FLAGS[:notimp])
       when 'refused.invalid'
         puts "[flags] #{req.domain.inspect}"
-        return respond_with_flags(txid, FLAGS[:refused])
+        return response_with_flags(txid, FLAGS[:refused])
       when 'truncated.invalid'
         puts "[flags] #{req.domain.inspect}"
-        return respond_with_flags(txid, FLAGS[:truncated])
+        return response_with_flags(txid, FLAGS[:truncated])
       when 'txid-mismatch.invalid'
         puts "[special] #{req.domain.inspect}"
-        return respond_with_flags((txid + 1) % 2**32, FLAGS[:success])
+        return response_with_flags((txid + 1) % 2**32, FLAGS[:success])
       end
 
       # Handle special cases that have a response record type of A or CNAME
@@ -162,30 +162,36 @@ module Madns
       # If the domain is not one of the known ones, return NOTIMP.
       if ! @samples.exist?(req.qtype, req.domain)
         puts "ERROR (unknown domain #{req.domain.inspect})"
-        return respond_with_flags(txid, FLAGS[:notimp])
+        return response_with_flags(txid, FLAGS[:notimp])
       end
 
       # Run Hexit and respond with the data.
       hexit_output = @samples.run(req)
       if hexit_output.nil?
-        return respond_with_flags(txid, FLAGS[:servfail])
+        return response_with_flags(txid, FLAGS[:servfail])
       end
 
       puts "[#{req.qtype}] #{req.domain.inspect}"
-      respond_with_data(txid, hexit_output)
+      response_with_data(txid, hexit_output)
     end
 
     # Creates a string of bytes representing a DNS response with the given
     # transaction ID and flags (which should signify an error code).
-    def respond_with_flags(txid, flags)
+    def response_with_flags(txid, flags)
       [txid, flags, 0, 0, 0, 0].pack('n*')
     end
 
     # Creates a string of bytes representing a DNS response beginning with the
     # given transaction ID and ending with the given string of bytes, which
     # should have come from Hexit.
-    def respond_with_data(txid, bytes_str)
+    def response_with_data(txid, bytes_str)
       [txid].pack('n') + bytes_str.bytes.pack('C*')
+    end
+
+    # Creates a completely random string of bytes that’s ostensibly a DNS
+    # response but is highly unlikely to be a valid one.
+    def completely_random_response
+      Random.new.bytes(988)
     end
   end
 
