@@ -17,3 +17,6 @@
 109: eui64
 256: uri
 257: caa
+
+# Not a real type, but is implemented as one:
+12345: customtype

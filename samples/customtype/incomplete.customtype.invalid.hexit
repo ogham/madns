@@ -1,0 +1,23 @@
+# incomplete.customtype.invalid
+#
+# Responds with a record of type 12345 containing less data than the length
+# field says it should.
+
+
+# DNS header
+# (minus transaction ID)
+Flags: 81 80
+Counts: be16[1]  be16[1]  be16[0]  be16[0]
+
+# Question
+Domain: 0a "incomplete" 0a "customtype" 07 "invalid" 00
+Type: be16[12345]
+Class: be16(DNS_IN)
+
+# Answer
+Domain: c0 0c
+Type: be16[12345]
+Class: be16(DNS_IN)
+TTL: be32[600]
+Length: be16[16]
+Data: 01 02 03 04 05 06 07 08  # incomplete

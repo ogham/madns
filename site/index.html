@@ -1158,6 +1158,39 @@ Error [protocol]: Malformed packet: insufficient data</pre>
       </tr>
 
 
+      <!-- Sample custom type records -->
+      <tr class="section" id="sample-custom-type-records"><th colspan="3">Sample custom type records <small>(qtype 12345)</small> <a href="#sample-custom-type-records" title="Link to this section" aria-hidden="true">§</a></th></tr>
+      <tr class="headings">
+        <th>Domain</th>
+        <th>qtype</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td><a title="View the Hexit source for this record" href="https://github.com/ogham/madns/blob/master/samples/customtype/customtype.example.hexit"><code>customtype.example</code></a></td>
+        <td><code class="qtype uri">12345</code></td>
+        <td>
+          Responds with a record for a custom record type, 12345, containing sixteen bytes of arbitrary data.
+        </td>
+      </tr>
+
+      <tr>
+        <td><a title="View the Hexit source for this record" href="https://github.com/ogham/madns/blob/master/samples/customtype/empty.customtype.example.hexit"><code>empty.customtype.example</code></a></td>
+        <td><code class="qtype uri">12345</code></td>
+        <td>
+          Responds with a record for a custom record type, 12345, containing no extra data.
+        </td>
+      </tr>
+
+      <tr>
+        <td><a title="View the Hexit source for this record" href="https://github.com/ogham/madns/blob/master/samples/customtype/incomplete.customtype.invalid.hexit"><code>incomplete.customtype.invalid</code></a></td>
+        <td><code class="qtype uri">12345</code></td>
+        <td>
+          Responds with a record for a custom record type, 12345, and some data that has some bytes missing.
+        </td>
+      </tr>
+
+
       <!-- Random responses -->
       <tr class="section" id="random-responses"><th colspan="3">Random responses <a href="#random-responses" title="Link to this section" aria-hidden="true">§</a></th></tr>
       <tr class="headings">
