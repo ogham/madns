@@ -50,6 +50,11 @@ p a:visited {
     text-decoration-color: #B78AEA;
 }
 
+p a:active {
+    color: #cc4747;
+    text-decoration-color: #dfa6a6;
+}
+
 
 /* section headings */
 
@@ -177,6 +182,11 @@ code.qtype {
     p a:visited {
         color: #C996EE;
         text-decoration-color: #9E3CE3;
+    }
+
+    p a:active {
+        color: #FF7676;
+        text-decoration-color: #FF2222;
     }
 
     pre {
