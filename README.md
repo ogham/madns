@@ -61,6 +61,32 @@ Note that the transaction ID is _not_ present in the Hexit code. Because this is
 Responses that _must_ vary between queries, such as the random data or transaction ID ones, are handled entirely by the Ruby server.
 
 
+Docker support
+--------------
+
+There’s an included `Dockerfile` that you can use to run madns without Rust, Ruby, or Hexit installed on your host computer. (It is not on Docker Hub or anything.)
+
+Build it with `docker build`:
+
+```
+$ docker build . -t madns
+```
+
+By default, the container process will bind to the address 0.0.0.0, listening to port 5301 over UDP. You’ll need to specify `/udp` in the port mapping section to specify a UDP port:
+
+```
+$ docker run -it --rm -p 5301:5301/udp madns
+Listening on UDP port 5301, binding to 0.0.0.0
+```
+
+To use TCP mode, pass `--tcp` as an argument:
+
+```
+$ docker run -it --rm -p 5301:5301 madns --tcp
+Listening on TCP port 5301, binding to 0.0.0.0
+```
+
+
 Licence
 -------
 
