@@ -37,9 +37,9 @@
     </p>
 
     <p>
-      Requests must contain exactly one query, for a domain name ending in <code>.example</code> or <code>.invalid</code>.
+      Requests must contain exactly one query, for a domain name ending in “<code>.example</code>” or “<code>.invalid</code>”.
       The record type can be any of the allowed types, and results will vary on both the domain and the type.
-      An <code>OPT</code> record in the request won’t affect the results.
+      An OPT record in the request won’t affect the results.
     </p>
 
     <p>
@@ -58,14 +58,14 @@
     </p>
 
     <p>
-      If you just want to try something quickly, you can test dog’s error handling by resolving one of the domains in the table below. Here’s one that’s valid, the domain <code>txt.example</code>, which contains a string:
+      If you just want to try something quickly, you can test dog’s error handling by resolving one of the domains in the table below. Here’s one that’s valid, the domain “<code>txt.example</code>”, which contains a string:
     </p>
 
     <pre role="doc-example"><b>$ dog @madns.binarystar.systems:5301 TXT txt.example</b>
 TXT txt.example. 10m00s   "Cache Invalidation and Naming Things"</pre>
 
     <p>
-      And here’s one that’s invalid, <code>empty.txt.invalid</code>, which should result in an error:
+      And here’s one that’s invalid, the domain “<code>empty.txt.invalid</code>”, which should result in an error:
     </p>
 
     <pre role="doc-example"><b>$ dog @madns.binarystar.systems:5301 TXT empty.txt.invalid</b>
@@ -92,7 +92,7 @@ Error [protocol]: Malformed packet: insufficient data</pre>
         <td><a title="View the Hexit source for this record" href="https://github.com/ogham/madns/blob/master/samples/a/a.example.hexit"><code>a.example</code></a></td>
         <td><code class="qtype a">A</code></td>
         <td>
-          Responds with the <code>127.0.0.1</code> IPv4 address.
+          Responds with the “<code>127.0.0.1</code>” IPv4 address.
         </td>
       </tr>
 
@@ -141,7 +141,7 @@ Error [protocol]: Malformed packet: insufficient data</pre>
         <td><a title="View the Hexit source for this record" href="https://github.com/ogham/madns/blob/master/samples/aaaa/aaaa.example.hexit"><code>aaaa.example</code></a></td>
         <td><code class="qtype aaaa">AAAA</code></td>
         <td>
-          Responds with the <code>::1</code> IPv6 address.
+          Responds with the “<code>::1</code>” IPv6 address.
         </td>
       </tr>
 
@@ -1105,7 +1105,7 @@ Error [protocol]: Malformed packet: insufficient data</pre>
         <td><a title="View the Hexit source for this record" href="https://github.com/ogham/madns/blob/master/samples/uri/uri.example.hexit"><code>uri.example</code></a></td>
         <td><code class="qtype uri">URI</code></td>
         <td>
-          Responds with a record with <code>https://rfcs.io/</code> as the URI.
+          Responds with a record with “<code>https://rfcs.io/</code>” as the URI.
         </td>
       </tr>
 
@@ -1113,7 +1113,7 @@ Error [protocol]: Malformed packet: insufficient data</pre>
         <td><a title="View the Hexit source for this record" href="https://github.com/ogham/madns/blob/master/samples/uri/slash.uri.example.hexit"><code>slash.uri.example</code></a></td>
         <td><code class="qtype uri">URI</code></td>
         <td>
-          Responds with a record with <code>/</code> as the URI.
+          Responds with a record with “<code>/</code>” as the URI.
         </td>
       </tr>
 
@@ -1398,8 +1398,8 @@ Error [protocol]: Malformed packet: insufficient data</pre>
     </p>
 
     <ul>
-      <li>Responses to <code>*.example</code> domains will have a correct DNS packet structure, and each record will be valid as well. Your client should parse these packets correctly. The data inside the records may be invalid for non-DNS reasons, but the packet structure will be correct.</li>
-      <li>Responses to <code>*.invalid</code> domains will have an <em>incorrect</em> DNS packet structure, or invalid record structures. Your client should detect these responses as malformed.</li>
+      <li>Responses to “<code>*.example</code>” domains will have a correct DNS packet structure, and each record will be valid as well. Your client should parse these packets correctly. The data inside the records may be invalid for non-DNS reasons, but the packet structure will be correct.</li>
+      <li>Responses to “<code>*.invalid</code>” domains will have an <em>incorrect</em> DNS packet structure, or invalid record structures. Your client should detect these responses as malformed.</li>
     </ul>
 
 
@@ -1411,10 +1411,10 @@ Error [protocol]: Malformed packet: insufficient data</pre>
     </p>
 
     <ul>
-      <li><code>empty.*.invalid</code> responses will have the record length in the packet set to zero, and each record will contain no data.</li>
-      <li><code>incomplete.*.invalid</code> responses will have the record length in the packet set to a <em>non-zero</em> value, but the packet will end before this number of bytes have been read.
-      <li><code>too-long.*.invalid</code> and <code>too-short.*.invalid</code> responses are only applicable to record types that have a fixed length (such as 4 for <code>A</code> or 16 for <code>AAAA</code>). The record length in the packet will correctly refer to the number of bytes in the packet, even though this number differs from the length according to the specification (it’s the correct incorrect length).
-      <li><code>missing-data.*.invalid</code> responses will have a missing variable-length string, but all other parts of the record will be present. Whether this is invalid or not depends on the record type. The record length in the packet will be correct.
+      <li>“<code>empty.*.invalid</code>” responses will have the record length in the packet set to zero, and each record will contain no data.</li>
+      <li>“<code>incomplete.*.invalid</code>” responses will have the record length in the packet set to a <em>non-zero</em> value, but the packet will end before this number of bytes have been read.
+      <li>“<code>too-long.*.invalid</code>” and “<code>too-short.*.invalid</code>” responses are only applicable to record types that have a fixed length (such as 4 for A or 16 for AAAA). The record length in the packet will correctly refer to the number of bytes in the packet, even though this number differs from the length according to the specification (it’s the correct incorrect length).
+      <li>“<code>missing-data.*.invalid</code>” responses will have a missing variable-length string, but all other parts of the record will be present. Whether this is invalid or not depends on the record type. The record length in the packet will be correct.
     </ul>
 
     <p>
@@ -1432,7 +1432,7 @@ Error [protocol]: Malformed packet: insufficient data</pre>
     <p>
       However, now that UTF-8 has become the One True Standard for text encoding (and rightfully so), it’s easy for clients to treat any text UTF-8, and do this by accident.
       There is nothing stopping DNS servers from returning record data containing bytes with the upper bit set, even if it does violate the specification, and this needs to be handled by clients <em>somehow</em>.
-      The <code>utf8.*</code> and <code>bad-utf.*</code> records are present so that clients can make sure they do not attempt to do this; or worse, that they do not crash when presented with invalid UTF-8 bytes.
+      The “<code>utf8.*</code>” and “<code>bad-utf.*</code>” records are present so that clients can make sure they do not attempt to do this; or worse, that they do not crash when presented with invalid UTF-8 bytes.
     </p>
 
 
