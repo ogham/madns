@@ -24,4 +24,4 @@ UDP payload size: be16[1452]
 Higher bits: [b1111_0011]
 EDNS0 version: 00
 Flags: be16[b0000_0000_0000_0000]
-Data: 00 00  # no data
+Data: be16[0]  # no data

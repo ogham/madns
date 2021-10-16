@@ -29,5 +29,5 @@ Type: be16(DNS_OPT)
 UDP payload size: be16[1452]
 Higher bits: 00
 EDNS0 version: 00
-Flags: 00 00
-Data: 00 00  # no data
+Flags: be16[b0000_0000_0000_0000]
+Data: be16[0]  # no data

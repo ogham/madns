@@ -29,4 +29,4 @@ UDP payload size: be16[1452]
 Higher bits: 00
 EDNS0 version: 00
 Flags: be16[b1000_0000_0000_0000]  # DO flag set, others unset
-Data: 00 00  # no data
+Data: be16[0]  # no data
